@@ -31,6 +31,7 @@ public class HomeActivity extends BaseActivity {
 		Log.i(TAG, "[HomeActivity] onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		mService = null;
 		stepTextView = (TextView) findViewById(R.id.step_value);
 	}
 	
@@ -59,13 +60,17 @@ public class HomeActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onStop() {
-		Log.i(TAG, "[HomeActivity] onStop");
-		if(mService != null)
-		unbindService(mConnection);
-		super.onStop();
+	protected void onDestroy() {
+		Log.i(TAG, "[HomeActivity] onDestroy");
+		if (mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
+		super.onDestroy();
 	}
-	
+
+
+
 	private static final int MENU_SETTINGS = 8;
 	private static final int MENU_QUIT = 9;
 
@@ -105,8 +110,6 @@ public class HomeActivity extends BaseActivity {
 			load();
 			return true;
 		case MENU_QUIT:
-			if(mService != null)
-			unbindService(mConnection);
 			finish();
 			return true;
 		}
