@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    >
+		
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="@dimen/margin" 
+    android:background="@color/screen_background">
+    <TextView android:id="@+id/realtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/realtime"
+        />
+    <LinearLayout android:id="@+id/row_1"
+        android:baselineAligned="false"
+        android:orientation="horizontal" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:paddingBottom="@dimen/row_spacing">
+    
+        <LinearLayout android:id="@+id/box_steps"
+            android:orientation="vertical"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingRight="@dimen/margin"
+            android:layout_weight="1">
+        
+            <TextView android:id="@+id/step_value"
+                android:textSize="@dimen/value"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" 
+                android:background="@color/display_background" 
+                android:paddingLeft="@dimen/padding" 
+                android:paddingRight="@dimen/padding" 
+                android:paddingTop="@dimen/padding"
+                android:text=""/>
+            <TextView android:id="@+id/step_units"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/units" 
+                android:text="@string/steps" 
+                android:background="@color/display_background" 
+                android:paddingBottom="@dimen/padding"/>
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/box_distance"
+            android:orientation="vertical"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_weight="1">
+            
+            <TextView android:id="@+id/distance_value"
+                android:textSize="@dimen/value"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" 
+                android:background="@color/display_background" 
+                android:paddingTop="@dimen/padding" 
+                android:paddingRight="@dimen/padding" 
+                android:paddingLeft="@dimen/padding"
+                android:text=""/>
+            <TextView android:id="@+id/distance_units"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/units"
+                android:text="@string/totalLength" 
+                android:background="@color/display_background" 
+                android:paddingBottom="@dimen/padding"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    
+        <LinearLayout android:id="@+id/row_2"
+            android:baselineAligned="false"
+        android:orientation="horizontal" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:paddingBottom="@dimen/row_spacing">
+    
+        <LinearLayout android:id="@+id/box_strideLength"
+            android:orientation="vertical"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingRight="@dimen/margin"
+            android:layout_weight="1">
+        
+            <TextView android:id="@+id/strideLength_value"
+                android:textSize="@dimen/value"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" 
+                android:background="@color/display_background" 
+                android:paddingLeft="@dimen/padding" 
+                android:paddingRight="@dimen/padding" 
+                android:paddingTop="@dimen/padding"
+                android:text=""/>
+            <TextView android:id="@+id/strideLength_units"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/units" 
+                android:text="@string/strideLength" 
+                android:background="@color/display_background" 
+                android:paddingBottom="@dimen/padding"/>
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/box_velocity"
+            android:orientation="vertical"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_weight="1">
+            
+            <TextView android:id="@+id/velocity_value"
+                android:textSize="@dimen/value"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" 
+                android:background="@color/display_background" 
+                android:paddingTop="@dimen/padding" 
+                android:paddingRight="@dimen/padding" 
+                android:paddingLeft="@dimen/padding"
+                android:text=""/>
+            <TextView android:id="@+id/velocity_units"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/units"
+                android:text="@string/kilometers_per_hour" 
+                android:background="@color/display_background" 
+                android:paddingBottom="@dimen/padding"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    <TextView android:id="@+id/offline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/offline"
+        />
+    <LinearLayout android:id="@+id/row_3"
+        android:baselineAligned="false"
+        android:orientation="horizontal" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:paddingBottom="@dimen/row_spacing">
+    
+        <LinearLayout android:id="@+id/box_steps2"
+            android:orientation="vertical"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingRight="@dimen/margin"
+            android:layout_weight="1">
+        
+            <TextView android:id="@+id/step_value2"
+                android:textSize="@dimen/value"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" 
+                android:background="@color/display_background" 
+                android:paddingLeft="@dimen/padding" 
+                android:paddingRight="@dimen/padding" 
+                android:paddingTop="@dimen/padding"
+                android:text=""/>
+            <TextView android:id="@+id/step_units2"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/units" 
+                android:text="@string/steps" 
+                android:background="@color/display_background" 
+                android:paddingBottom="@dimen/padding"/>
+                         
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/box_distance2"
+            android:orientation="vertical"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_weight="1">
+            
+            <TextView android:id="@+id/distance_value2"
+                android:textSize="@dimen/value"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" 
+                android:background="@color/display_background" 
+                android:paddingTop="@dimen/padding" 
+                android:paddingRight="@dimen/padding" 
+                android:paddingLeft="@dimen/padding"
+                android:text=""/>
+            <TextView android:id="@+id/distance_units2"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/units"
+                android:text="@string/totalLength" 
+                android:background="@color/display_background" 
+                android:paddingBottom="@dimen/padding"/>
+
+        </LinearLayout>
+        
+        </LinearLayout>
+		<LinearLayout android:id="@+id/row_4"
+		android:baselineAligned="false"
+        android:orientation="horizontal" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:paddingBottom="@dimen/row_spacing">
+    
+        <LinearLayout android:id="@+id/box_strideLength2"
+            android:orientation="vertical"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingRight="@dimen/margin"
+            android:layout_weight="1">
+        
+            <TextView android:id="@+id/strideLength_value2"
+                android:textSize="@dimen/value"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" 
+                android:background="@color/display_background" 
+                android:paddingLeft="@dimen/padding" 
+                android:paddingRight="@dimen/padding" 
+                android:paddingTop="@dimen/padding"
+                android:text=""/>
+            <TextView android:id="@+id/strideLength_units2"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/units" 
+                android:text="@string/strideLength" 
+                android:background="@color/display_background" 
+                android:paddingBottom="@dimen/padding"/>
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/box_velocity2"
+            android:orientation="vertical"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_weight="1">
+            
+            <TextView android:id="@+id/velocity_value2"
+                android:textSize="@dimen/value"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" 
+                android:background="@color/display_background" 
+                android:paddingTop="@dimen/padding" 
+                android:paddingRight="@dimen/padding" 
+                android:paddingLeft="@dimen/padding"
+                android:text=""/>
+            <TextView android:id="@+id/velocity_units2"
+                android:gravity="center_horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/units"
+                android:text="@string/kilometers_per_hour" 
+                android:background="@color/display_background" 
+                android:paddingBottom="@dimen/padding"/>
+	</LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+	</LinearLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">室内行人追踪</string>
+    
+    <string name="pause">暂停</string>
+    <string name="settings">设置</string>
+    
+    <string name="dataHandling">数据处理</string>
+    <string name="pedometer">计步器</string>
+    <string name="quit">退出</string>
+    <string name="CalculatingStepNum">计算步数</string>
+    <string name="AccelerationTransformation">加速度转换</string>
+    
+    <string name="thresholdText">请输入阈值(10.0~12.0):</string>
+    <string name="kText">请输入K(0.4~0.6):</string>
+    <string name="deleteFile">删除文件</string>
+    <string name="bindService">开始计数</string>
+    <string name="unbindService">停止计数</string>
+    <string name="reset">重置</string>
+    <string name="offlineBtn">离线计算</string>
+    <string name="strideLength">平均步长：米</string>
+    <string name="totalLength">行走距离：米</string>
+
+	<string name="steps">行走步数</string>
+    <string name="kilometers">千米</string>
+    <string name="miles">米</string>
+    <string name="steps_per_minute">步/分</string>
+    <string name="kilometers_per_hour">行走速度：千米/时</string>
+    <string name="miles_per_second">行走速度：米/秒</string>
+    <string name="realtime">实时计算结果</string>
+    <string name="offline">离线计算结果</string>
+    
+    <string name="hour">时</string>
+    <string name="minute">分</string>
+    <string name="second">秒</string>
+    <string name="bigstep">大步</string>
+    <string name="smallstep">小步</string>
+    <string name="startcounting">开始计数</string>
+    <string name="counting">正在计数</string>
+    <string name="stopcounting">停止计数</string>
+    <string name="continuecounting">继续计数</string>
+    <string name="offlinecalculating">离线计算中</string>
+    <string name="suretoquit">确定要退出程序?</string>
+    <string name="sure">确定</string>
+    <string name="cancel">取消</string>
+    <string name="openMap">打开地图</string>
+    
+    <string name="startpoint">起始点</string>
+</resources>
