@@ -61,6 +61,7 @@ public class HomeActivity extends BaseActivity {
 	@Override
 	protected void onStop() {
 		Log.i(TAG, "[HomeActivity] onStop");
+		if(mService != null)
 		unbindService(mConnection);
 		super.onStop();
 	}
@@ -104,6 +105,7 @@ public class HomeActivity extends BaseActivity {
 			load();
 			return true;
 		case MENU_QUIT:
+			if(mService != null)
 			unbindService(mConnection);
 			finish();
 			return true;
