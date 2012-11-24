@@ -19,6 +19,9 @@ public class StepDetectionService extends Service implements StepTrigger {
 	
 	private float[] orientation = new float[3];
 	
+	private static final int HAND_HELD = 1; // 手持
+	private static final int POCKET = 2; //口袋
+	
 	// 客户通过mBinder和服务进行通信
 	private final IBinder mBinder = new StepDetectionBinder();
 	
@@ -54,13 +57,26 @@ public class StepDetectionService extends Service implements StepTrigger {
 	}
 
 	@Override
-	public void trigger(float length, float[] orientation) {
-		stepCount++;
+	public void trigger(int stepCount, float length, float[] orientation) {
+		this.stepCount = stepCount;
 		this.orientation = orientation;
 	}
 	
 	// 获取探测脚步数
-	public float getStep() {
-		return orientation[0];
+	public int getStep() {
+		return stepCount;
+	}
+	
+	// 获取行进方向
+	public float getHeading(int CARRY_MODEL) {
+		switch(CARRY_MODEL) {
+		case HAND_HELD:
+			return (float) ((orientation[0] * 360 / Math.PI + 360) % 360); 
+		case POCKET:
+			return (float) ((orientation[1] * 360 / Math.PI + 360) % 360); 
+		default:
+			return (float) ((orientation[0] * 360 / Math.PI + 360) % 360); 
+		}
+		
 	}
 }

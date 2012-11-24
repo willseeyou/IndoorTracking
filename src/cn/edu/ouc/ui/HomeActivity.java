@@ -3,8 +3,6 @@ package cn.edu.ouc.ui;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.google.android.maps.MapView;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +24,7 @@ public class HomeActivity extends BaseActivity {
 	public final long INTERVAL_MS = 1000/30;
 	
 	private TextView stepTextView;
+	private TextView strideTextView;
 	
 	StepDetectionService mService;
 	boolean mBound = false;
@@ -37,6 +36,7 @@ public class HomeActivity extends BaseActivity {
 		setContentView(R.layout.main);
 		mService = null;
 		stepTextView = (TextView) findViewById(R.id.step_value);
+		strideTextView = (TextView) findViewById(R.id.strideLength_value);
 	}
 	
 	@Override
@@ -148,6 +148,13 @@ public class HomeActivity extends BaseActivity {
 						@Override
 						public void run() {
 							stepTextView.setText(mService.getStep() + "");
+						}
+					});
+					strideTextView.post(new Runnable() {
+						
+						@Override
+						public void run() {
+							strideTextView.setText(mService.getHeading(1) + "");
 						}
 					});
 				}

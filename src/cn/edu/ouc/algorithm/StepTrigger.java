@@ -7,5 +7,5 @@ public interface StepTrigger {
 	 * @param length 步长
 	 * @param orientation 方向
 	 */
-	public void trigger(float length, float[] orientation);
+	public void trigger(int stepCount, float length, float[] orientation);
 }

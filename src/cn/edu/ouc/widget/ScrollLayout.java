@@ -15,6 +15,7 @@ import android.widget.Scroller;
  * @modify liux (http://my.oschina.net/liux)
  */
 public class ScrollLayout extends ViewGroup {
+	@SuppressWarnings("unused")
 	private static final String TAG = "ScrollLayout";
 	private Scroller mScroller;
 	private VelocityTracker mVelocityTracker;

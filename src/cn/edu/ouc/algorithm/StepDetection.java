@@ -18,9 +18,9 @@ public class StepDetection {
 
 	private static final String TAG = "StepDetection";
 	
-	
 	private StepTrigger st; // 使用接口StepTrigger向外部组件通知脚步探测情况
 	
+	@SuppressWarnings("unused")
 	private Context context; // 通过Context访问传感器服务
 	
 	private static SensorManager mSensorManager;
@@ -39,6 +39,7 @@ public class StepDetection {
 	private int swPointer = 2 * W;
 	private static final int BLOCKSIZE = 8; // 连续1或连续0的阈值
 	private boolean firstStart = true;
+	private int stepCount;
 	
 	/* ----------------------------------------------*/
 	// 用于gyroFunction方法的参数
@@ -53,7 +54,7 @@ public class StepDetection {
     public float omegaMagnitude = 0;
     public float[] matrix = new float[9]; // 旋转矩阵
     private float[] orientation = new float[3]; // 方向角
-    private float[][] slide_windows_ori = new float[swSize][3]; //滑动窗口，用于存储方向
+    private float[][] slide_windows_ori; //滑动窗口，用于存储方向
 	
 	/**
 	 * 构造函数
@@ -67,6 +68,14 @@ public class StepDetection {
 		this.swSize = swSize;
 		this.slide_windows_acc = new float[swSize];
 		this.localMeanAccel = new float[swSize];
+		this.slide_windows_ori = new float[swSize][3];
+		stepCount = 0;
+		
+		matrix[0] = 1.0f; matrix[1] = 0.0f; matrix[2] = 0.0f;
+		matrix[3] = 1.0f; matrix[4] = 1.0f; matrix[5] = 0.0f;
+		matrix[6] = 1.0f; matrix[7] = 0.0f; matrix[8] = 1.0f;
+		
+		orientation[0] = 0.0f; orientation[1] = 0.0f; orientation[2] = 0.0f;
 		//this.accelVariance = new float[swSize];
 		mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 	}
@@ -80,14 +89,15 @@ public class StepDetection {
 		public void onSensorChanged(SensorEvent event) {
 			switch(event.sensor.getType()) {
 		    case Sensor.TYPE_ACCELEROMETER:
+		    	
 		    	System.arraycopy(event.values, 0, accel, 0, 3);
 		    	slide_windows_acc[swPointer % (swSize - 1)] = StepDetectionUtil.getMagnitudeOfAccel(accel);
 		        if((swPointer == swSize - 1)) {
 		        	checkForStep(); // 开始脚步探测
 		        }
 		        swPointer++;
-		        if(swPointer > swSize - 1) {
-		        	swPointer = (swPointer % (swSize - 1)) + 2 * W;
+		        if(swPointer > swSize - 1) { // 如果指针位置超过窗口大小，则将指针移到距离窗口起始位置2 * W处
+		        	swPointer = (swPointer % (swSize - 1)) + 2 * W; // 窗口的前2 * W个位置作为缓冲使用
 		        }
 		        swPointer = swPointer % swSize;
 		        break;
@@ -95,9 +105,6 @@ public class StepDetection {
 		    case Sensor.TYPE_GYROSCOPE:
 		    	gyroFunction(event); // 处理陀螺仪数据
 		        break;
-		
-		    case Sensor.TYPE_ORIENTATION:
-		    	break;
 			}
 		}
 		
@@ -118,10 +125,6 @@ public class StepDetection {
 		
 		mSensorManager.registerListener(mSensorEventListener, 
 				mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),
-				SensorManager.SENSOR_DELAY_FASTEST);
-		
-		mSensorManager.registerListener(mSensorEventListener, 
-				mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
 				SensorManager.SENSOR_DELAY_FASTEST);
 	}
 	
@@ -148,7 +151,7 @@ public class StepDetection {
 		boolean flag = false; // 记录当前点是1还是0
 		
 		// 通过数连续1和连续0的个数判断脚步
-		for(int i = 0, j = 1; i < swSize - 1 && j < swSize -W; i++, j++) {
+		for(int i = 0, j = 1; i < swSize - 1 && j < swSize - W; i++, j++) {
 			if(firstStart) {
 				i = 2 * W;
 				j = i + 1;
@@ -167,14 +170,15 @@ public class StepDetection {
 			{
 				numZero++;	
 			}
-			/* 忽略前W个和后W个采样点，如果前一个采样点i不等于当前采样点j的值，
+			/* 如果前一个采样点i不等于当前采样点j的值，
 			 * 并且连续1和连续0的个数均大于BLOCKSIZE，则探测到脚步，
 			 * 将numOne和numZero置0，计算探测脚步的步长和方向。 */
 			if((condition[i] != condition[j]) && j > W && j < swSize - W) {
 				if(numOne > BLOCKSIZE && numZero > BLOCKSIZE) {
 					numOne = 0;
 					numZero = 0;
-					st.trigger(slide_windows_acc[i], slide_windows_ori[swPointer]);
+					stepCount++;
+					st.trigger(stepCount, 0, slide_windows_ori[swPointer]);
 				}
 			}
 		}
@@ -193,7 +197,6 @@ public class StepDetection {
      * @param event 传感器事件
      */
     public void gyroFunction(SensorEvent event) {
-    	Log.i(TAG, "[StepDetection] gyroFunction");
         if(timestamp != 0) {
 			dT = (event.timestamp - timestamp) * NS2S;
 			axisX = event.values[0];
