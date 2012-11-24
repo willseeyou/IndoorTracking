@@ -1,11 +1,15 @@
 package cn.edu.ouc.algorithm;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
+import cn.edu.ouc.db.DatabaseHelper;
 import cn.edu.ouc.util.StepDetectionUtil;
 
 /**
@@ -56,6 +60,14 @@ public class StepDetection {
     public float[] matrix = new float[9]; // 旋转矩阵
     private float[] orientation = new float[3]; // 方向角
     private float[][] slide_windows_ori; //滑动窗口，用于存储方向
+    
+    /* ----------------------------------------------*/
+	// 数据库操作相关参数
+    DatabaseHelper mHelper;
+	SQLiteDatabase db;
+	private static final String TBL_NAME = "track_tbl";
+	double lat = 36.16010;
+    double lng = 120.491951;
 	
 	/**
 	 * 构造函数
@@ -71,6 +83,8 @@ public class StepDetection {
 		this.localMeanAccel = new float[swSize];
 		this.slide_windows_ori = new float[swSize][3];
 		stepCount = 0;
+		mHelper = new DatabaseHelper(context);
+		db = mHelper.getWritableDatabase();
 		
 		matrix[0] = 1.0f; matrix[1] = 0.0f; matrix[2] = 0.0f;
 		matrix[3] = 1.0f; matrix[4] = 1.0f; matrix[5] = 0.0f;
@@ -135,6 +149,7 @@ public class StepDetection {
 	public void stopSensor() {
 		Log.i(TAG, "[StepDetection] stopSensor");
 		mSensorManager.unregisterListener(mSensorEventListener);
+		db.close();
 	}
 	
 	/**
@@ -182,6 +197,8 @@ public class StepDetection {
 					float meanA = StepDetectionUtil.getMean(localMeanAccel, j, W);
 					strideLength = StepDetectionUtil.getSL(0.67f, meanA);
 					st.trigger(stepCount, strideLength, slide_windows_ori[swPointer]);
+					
+					saveToDb();
 				}
 			}
 		}
@@ -231,6 +248,34 @@ public class StepDetection {
 		matrix = StepDetectionUtil.matrixMultiplication(matrix, deltaRotationMatrix);
 		SensorManager.getOrientation(matrix, orientation);
 		slide_windows_ori[swPointer] = orientation;
+    }
+    
+    private void saveToDb() {
+    	Cursor c = db.query(TBL_NAME, null, null, null, null, null, null);
+		
+		double newlat = 0;
+		double newlng = 0;
+		if(c != null) {
+			if(c.getCount() == 0) {
+				newlat = StepDetectionUtil.getPoint(lat, lng, (double) slide_windows_ori[swPointer][0], (double) strideLength)[0];
+				newlng = StepDetectionUtil.getPoint(lat, lng, (double) slide_windows_ori[swPointer][0], (double) strideLength)[1];
+			}
+			if(c.getCount() >=1) {
+				c.moveToLast();
+				System.out.println(c.getInt(0));
+				newlat = StepDetectionUtil.getPoint(c.getDouble(5), c.getDouble(6), (double) slide_windows_ori[swPointer][0], (double) strideLength)[0];
+				newlng = StepDetectionUtil.getPoint(c.getDouble(5), c.getDouble(6), (double) slide_windows_ori[swPointer][0], (double) strideLength)[1];
+			}
+		}
+		
+		ContentValues values = new ContentValues();
+		values.put("length", strideLength);
+		values.put("roll", slide_windows_ori[swPointer][0]);
+		values.put("pitch", slide_windows_ori[swPointer][1]);
+		values.put("yaw", slide_windows_ori[swPointer][2]);
+		values.put("lat", newlat);
+		values.put("lng", newlng);
+		db.insert(TBL_NAME, null, values);
     }
 	
 }

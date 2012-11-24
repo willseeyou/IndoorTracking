@@ -4,6 +4,8 @@ package cn.edu.ouc.util;
 
 public class StepDetectionUtil {
 	
+	public static double EARTH_RADIUS=6378137;
+	
 	/**
 	 * 计算合加速度
 	 * @param accel 三轴加速度
@@ -212,6 +214,30 @@ public class StepDetectionUtil {
 			sum += magAccel[j + i];
 		}
 		return sum / (2 * w);
+	}
+	
+	/**
+	 * 
+	 * @param lat1
+	 * @param lng1
+	 * @param bearing
+	 * @param distance
+	 * @return
+	 */
+	public static double[] getPoint(double lat1, double lng1, double bearing, double distance) {
+		lat1 = (double) Math.toRadians(lat1);
+		lng1 = (double) Math.toRadians(lng1);
+		bearing = (double) Math.toRadians(bearing);
+		double r = distance/EARTH_RADIUS;
+		double[] point2 = new double[2];
+		double lat2 = Math.asin(Math.sin(lat1)*Math.cos(r) + 
+				Math.cos(lat1)*Math.sin(r)*Math.cos(bearing));
+		double lng2 = (lng1 + 
+		Math.atan2(Math.sin(bearing)*Math.sin(r)*Math.cos(lat1),
+				Math.cos(r)-Math.sin(lat1)*Math.sin(lat2)));
+		point2[0] = Math.toDegrees(lat2);
+		point2[1] = Math.toDegrees(lng2);
+		return point2;
 	}
 	
 }
