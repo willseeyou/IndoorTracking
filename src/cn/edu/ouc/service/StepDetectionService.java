@@ -79,11 +79,11 @@ public class StepDetectionService extends Service implements StepTrigger {
 	public float getHeading(int CARRY_MODEL) {
 		switch(CARRY_MODEL) {
 		case HAND_HELD:
-			return (float) ((orientation[0] * 360 / Math.PI + 360) % 360); 
+			return (float) (orientation[0] * 180 / Math.PI + 360)%360; 
 		case POCKET:
-			return (float) ((orientation[1] * 360 / Math.PI + 360) % 360); 
+			return (float) ((orientation[1] * 180 / Math.PI + 360) % 360); 
 		default:
-			return (float) ((orientation[0] * 360 / Math.PI + 360) % 360); 
+			return (float) ((orientation[0] * 180 / Math.PI + 360) % 360); 
 		}
 	}
 }

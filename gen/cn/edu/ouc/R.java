@@ -37,30 +37,33 @@ public final class R {
     public static final class drawable {
         public static final int frame_logo_pdr=0x7f020000;
         public static final int ic_launcher=0x7f020001;
-        public static final int start_background=0x7f020002;
-        public static final int welcome=0x7f020003;
-        public static final int widget_bar_active=0x7f020004;
-        public static final int widget_bar_active_nor=0x7f020005;
-        public static final int widget_bar_active_over=0x7f020006;
-        public static final int widget_bar_bg=0x7f020007;
-        public static final int widget_bar_bg_n=0x7f020008;
-        public static final int widget_bar_bg_p=0x7f020009;
-        public static final int widget_bar_cut_off=0x7f02000a;
-        public static final int widget_bar_home=0x7f02000b;
-        public static final int widget_bar_home_nor=0x7f02000c;
-        public static final int widget_bar_home_over=0x7f02000d;
-        public static final int widget_bar_more=0x7f02000e;
-        public static final int widget_bar_more_nor=0x7f02000f;
-        public static final int widget_bar_more_over=0x7f020010;
-        public static final int widget_bar_question=0x7f020011;
-        public static final int widget_bar_question_nor=0x7f020012;
-        public static final int widget_bar_question_over=0x7f020013;
-        public static final int widget_bar_tweet=0x7f020014;
-        public static final int widget_bar_tweet_nor=0x7f020015;
-        public static final int widget_bar_tweet_over=0x7f020016;
-        public static final int widget_head_bg=0x7f020017;
+        public static final int marker=0x7f020002;
+        public static final int markera=0x7f020003;
+        public static final int start_background=0x7f020004;
+        public static final int welcome=0x7f020005;
+        public static final int widget_bar_active=0x7f020006;
+        public static final int widget_bar_active_nor=0x7f020007;
+        public static final int widget_bar_active_over=0x7f020008;
+        public static final int widget_bar_bg=0x7f020009;
+        public static final int widget_bar_bg_n=0x7f02000a;
+        public static final int widget_bar_bg_p=0x7f02000b;
+        public static final int widget_bar_cut_off=0x7f02000c;
+        public static final int widget_bar_home=0x7f02000d;
+        public static final int widget_bar_home_nor=0x7f02000e;
+        public static final int widget_bar_home_over=0x7f02000f;
+        public static final int widget_bar_more=0x7f020010;
+        public static final int widget_bar_more_nor=0x7f020011;
+        public static final int widget_bar_more_over=0x7f020012;
+        public static final int widget_bar_question=0x7f020013;
+        public static final int widget_bar_question_nor=0x7f020014;
+        public static final int widget_bar_question_over=0x7f020015;
+        public static final int widget_bar_tweet=0x7f020016;
+        public static final int widget_bar_tweet_nor=0x7f020017;
+        public static final int widget_bar_tweet_over=0x7f020018;
+        public static final int widget_head_bg=0x7f020019;
     }
     public static final class id {
+        public static final int MapView01=0x7f08001e;
         public static final int box_distance=0x7f080005;
         public static final int box_distance2=0x7f080014;
         public static final int box_steps=0x7f080002;
@@ -73,16 +76,16 @@ public final class R {
         public static final int distance_units2=0x7f080016;
         public static final int distance_value=0x7f080006;
         public static final int distance_value2=0x7f080015;
-        public static final int main_footbar_active=0x7f080023;
-        public static final int main_footbar_home=0x7f080020;
-        public static final int main_footbar_question=0x7f080021;
-        public static final int main_footbar_setting=0x7f080024;
-        public static final int main_footbar_tweet=0x7f080022;
-        public static final int main_head_logo=0x7f080026;
-        public static final int main_head_title=0x7f080027;
-        public static final int main_linearlayout_footer=0x7f08001f;
-        public static final int main_relativelayout_header=0x7f080025;
-        public static final int main_scrolllayout=0x7f08001e;
+        public static final int main_footbar_active=0x7f080024;
+        public static final int main_footbar_home=0x7f080021;
+        public static final int main_footbar_question=0x7f080022;
+        public static final int main_footbar_setting=0x7f080025;
+        public static final int main_footbar_tweet=0x7f080023;
+        public static final int main_head_logo=0x7f080027;
+        public static final int main_head_title=0x7f080028;
+        public static final int main_linearlayout_footer=0x7f080020;
+        public static final int main_relativelayout_header=0x7f080026;
+        public static final int main_scrolllayout=0x7f08001f;
         public static final int offline=0x7f08000f;
         public static final int realtime=0x7f080000;
         public static final int row_1=0x7f080001;
@@ -104,10 +107,11 @@ public final class R {
     }
     public static final class layout {
         public static final int frame_home=0x7f030000;
-        public static final int main=0x7f030001;
-        public static final int main_footer=0x7f030002;
-        public static final int main_header=0x7f030003;
-        public static final int start=0x7f030004;
+        public static final int googlemap=0x7f030001;
+        public static final int main=0x7f030002;
+        public static final int main_footer=0x7f030003;
+        public static final int main_header=0x7f030004;
+        public static final int start=0x7f030005;
     }
     public static final class string {
         public static final int AccelerationTransformation=0x7f060029;

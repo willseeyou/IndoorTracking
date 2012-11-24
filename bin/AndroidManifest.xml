@@ -22,7 +22,7 @@
 		    </intent-filter>
         </activity>
         <activity android:name=".ui.HomeActivity" android:theme="@android:style/Theme.NoTitleBar" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"/>
-        
+        <activity android:name=".ui.GMapActivity" ></activity>
         <service android:name=".service.StepDetectionService" />
     </application>
 

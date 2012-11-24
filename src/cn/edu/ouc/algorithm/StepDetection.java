@@ -44,19 +44,14 @@ public class StepDetection {
 	private static final int BLOCKSIZE = 8; // 连续1或连续0的阈值
 	private boolean firstStart = true; //判断程序是否首次运行，以便对滑动窗口的起始位置进行设定
 	private int stepCount; //探测脚步数
-	private float strideLength; //步长
+	private double strideLength; //步长
 	
 	/* ----------------------------------------------*/
 	// 用于gyroFunction方法的参数
 	public static final float EPSILON = 0.000000001f;
+	private float[] gyro = new float[3]; // 陀螺仪数据
 	private float timestamp;
-	float dT = 0;
-	public float axisX = 0;
-	public float axisY = 0;
-	public float axisZ = 0;
     private static final float NS2S = 1.0f / 1000000000.0f; // 纳秒到秒的转换
-    private final float[] deltaRotationVector = new float[4];
-    public float omegaMagnitude = 0;
     public float[] matrix = new float[9]; // 旋转矩阵
     private float[] orientation = new float[3]; // 方向角
     private float[][] slide_windows_ori; //滑动窗口，用于存储方向
@@ -87,8 +82,8 @@ public class StepDetection {
 		db = mHelper.getWritableDatabase();
 		
 		matrix[0] = 1.0f; matrix[1] = 0.0f; matrix[2] = 0.0f;
-		matrix[3] = 1.0f; matrix[4] = 1.0f; matrix[5] = 0.0f;
-		matrix[6] = 1.0f; matrix[7] = 0.0f; matrix[8] = 1.0f;
+		matrix[3] = 0.0f; matrix[4] = 1.0f; matrix[5] = 0.0f;
+		matrix[6] = 0.0f; matrix[7] = 0.0f; matrix[8] = 1.0f;
 		
 		orientation[0] = 0.0f; orientation[1] = 0.0f; orientation[2] = 0.0f;
 		//this.accelVariance = new float[swSize];
@@ -195,8 +190,8 @@ public class StepDetection {
 					numZero = 0;
 					stepCount++;
 					float meanA = StepDetectionUtil.getMean(localMeanAccel, j, W);
-					strideLength = StepDetectionUtil.getSL(0.67f, meanA);
-					st.trigger(stepCount, strideLength, slide_windows_ori[swPointer]);
+					strideLength = StepDetectionUtil.getSL(0.33f, meanA);
+					st.trigger(stepCount, (float) strideLength, orientation);
 					
 					saveToDb();
 				}
@@ -217,39 +212,54 @@ public class StepDetection {
      * @param event 传感器事件
      */
     public void gyroFunction(SensorEvent event) {
+    	float[] deltaVector = new float[4];
         if(timestamp != 0) {
-			dT = (event.timestamp - timestamp) * NS2S;
-			axisX = event.values[0];
-			axisY = event.values[1];
-			axisZ = event.values[2];
-			
-			omegaMagnitude = (float) Math.sqrt(axisX * axisX + 
-					axisY * axisY + axisZ * axisZ);
-			if(omegaMagnitude > EPSILON) 
-			{	
-				axisX /= omegaMagnitude;
-				axisY /= omegaMagnitude;
-				axisZ /= omegaMagnitude;
-			}
-			
-			float thetaOverTwo = omegaMagnitude * dT / 2.0f;
-			float sinThetaOverTwo = (float) Math.sin(thetaOverTwo);
-			float cosThetaOverTwo = (float) Math.cos(thetaOverTwo);
-			deltaRotationVector[0] = sinThetaOverTwo * axisX;
-			deltaRotationVector[1] = sinThetaOverTwo * axisY;
-			deltaRotationVector[2] = sinThetaOverTwo * axisZ;
-			deltaRotationVector[3] = cosThetaOverTwo;
-		}
-		timestamp = event.timestamp;
-		float[] deltaRotationMatrix = new float[9];
-		SensorManager.getRotationMatrixFromVector(deltaRotationMatrix, 
-				deltaRotationVector);
-		
-		matrix = StepDetectionUtil.matrixMultiplication(matrix, deltaRotationMatrix);
+			final float dT = (event.timestamp - timestamp) * NS2S;
+			System.arraycopy(event.values, 0, gyro, 0, 3);
+			getRotationVectorFromGyro(gyro, deltaVector, dT / 2.0f);
+        }
+        
+        timestamp = event.timestamp;
+        
+        float[] deltaMatrix = new float[9];
+        SensorManager.getRotationMatrixFromVector(deltaMatrix, deltaVector);
+        
+		matrix = StepDetectionUtil.matrixMultiplication(matrix, deltaMatrix);
 		SensorManager.getOrientation(matrix, orientation);
 		slide_windows_ori[swPointer] = orientation;
     }
     
+    private void getRotationVectorFromGyro(float[] gyroValues,
+    		float[] deltaRotationVector,
+    		float timeFactor) {
+    	
+    	float[] normValues = new float[3];
+    	
+    	// Calculate the angular speed of the sample
+    	float omegaMagnitude = 
+    			(float) Math.sqrt(gyroValues[0] * gyroValues[0] +
+    					gyroValues[1] * gyroValues[1] +
+    					gyroValues[2] * gyroValues[2]);
+    	
+    	// Normalize the rotation vector if it's big enough to get the axis
+    	if(omegaMagnitude > EPSILON) {
+    		normValues[0] = gyroValues[0] / omegaMagnitude;
+    		normValues[1] = gyroValues[1] / omegaMagnitude;
+    		normValues[2] = gyroValues[2] / omegaMagnitude;
+    	}
+    	
+    	float thetaOvetTwo = omegaMagnitude * timeFactor;
+    	float sinThetaOverTwo = (float) Math.sin(thetaOvetTwo);
+    	float cosThetaOverTwo = (float) Math.cos(thetaOvetTwo);
+    	deltaRotationVector[0] = sinThetaOverTwo * normValues[0];
+    	deltaRotationVector[1] = sinThetaOverTwo * normValues[1];
+    	deltaRotationVector[2] = sinThetaOverTwo * normValues[2];
+    	deltaRotationVector[3] = cosThetaOverTwo;
+    }
+    
+    /**
+     * 将脚步数据保存到数据库中
+     */
     private void saveToDb() {
     	Cursor c = db.query(TBL_NAME, null, null, null, null, null, null);
 		
@@ -257,22 +267,22 @@ public class StepDetection {
 		double newlng = 0;
 		if(c != null) {
 			if(c.getCount() == 0) {
-				newlat = StepDetectionUtil.getPoint(lat, lng, (double) slide_windows_ori[swPointer][0], (double) strideLength)[0];
-				newlng = StepDetectionUtil.getPoint(lat, lng, (double) slide_windows_ori[swPointer][0], (double) strideLength)[1];
+				newlat = StepDetectionUtil.getPoint(lat, lng, (double) (slide_windows_ori[swPointer][0] * 180/Math.PI+ 360) % 360, (double) strideLength)[0];
+				newlng = StepDetectionUtil.getPoint(lat, lng, (double) (slide_windows_ori[swPointer][0] * 180/Math.PI+ 360) % 360, (double) strideLength)[1];
 			}
 			if(c.getCount() >=1) {
 				c.moveToLast();
-				System.out.println(c.getInt(0));
-				newlat = StepDetectionUtil.getPoint(c.getDouble(5), c.getDouble(6), (double) slide_windows_ori[swPointer][0], (double) strideLength)[0];
-				newlng = StepDetectionUtil.getPoint(c.getDouble(5), c.getDouble(6), (double) slide_windows_ori[swPointer][0], (double) strideLength)[1];
+				System.out.println(c.getInt(1));
+				newlat = StepDetectionUtil.getPoint(c.getDouble(5), c.getDouble(6), (double) (slide_windows_ori[swPointer][0] * 180/Math.PI+ 360) % 360, (double) strideLength)[0];
+				newlng = StepDetectionUtil.getPoint(c.getDouble(5), c.getDouble(6), (double) (slide_windows_ori[swPointer][0] * 180/Math.PI+ 360) % 360, (double) strideLength)[1];
 			}
 		}
 		
 		ContentValues values = new ContentValues();
 		values.put("length", strideLength);
-		values.put("roll", slide_windows_ori[swPointer][0]);
-		values.put("pitch", slide_windows_ori[swPointer][1]);
-		values.put("yaw", slide_windows_ori[swPointer][2]);
+		values.put("azimuth", (double) (slide_windows_ori[swPointer][0] * 180/Math.PI+ 360) % 360);
+		values.put("pitch", (double) (slide_windows_ori[swPointer][1] * 180/Math.PI+ 360) % 360);
+		values.put("roll", (double) (slide_windows_ori[swPointer][2] * 180/Math.PI+ 360) % 360);
 		values.put("lat", newlat);
 		values.put("lng", newlng);
 		db.insert(TBL_NAME, null, values);

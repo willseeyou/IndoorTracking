@@ -92,7 +92,8 @@ public class HomeActivity extends BaseActivity {
 				.setShortcut('2', 'r');
 		menu.add(0, MENU_SETTINGS, 0, R.string.settings)
 				.setIcon(android.R.drawable.ic_menu_preferences)
-				.setShortcut('8', 's');
+				.setShortcut('8', 's')
+				.setIntent(new Intent(this, GMapActivity.class));
 		menu.add(0, MENU_QUIT, 0, R.string.quit)
 				.setIcon(android.R.drawable.ic_lock_power_off)
 				.setShortcut('9', 'q');
@@ -154,7 +155,7 @@ public class HomeActivity extends BaseActivity {
 						
 						@Override
 						public void run() {
-							strideTextView.setText(mService.getSL() + "");
+							strideTextView.setText(mService.getHeading(1) + "");
 						}
 					});
 				}
