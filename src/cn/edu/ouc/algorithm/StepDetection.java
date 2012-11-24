@@ -5,6 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 import cn.edu.ouc.util.StepDetectionUtil;
 
 /**
@@ -17,51 +18,42 @@ public class StepDetection {
 
 	private static final String TAG = "StepDetection";
 	
-	// 使用接口StepTrigger向外部组件通知脚步探测情况
-	private StepTrigger st;
 	
-	// 通过Context访问传感器服务
-	private Context context;
+	private StepTrigger st; // 使用接口StepTrigger向外部组件通知脚步探测情况
+	
+	private Context context; // 通过Context访问传感器服务
 	
 	private static SensorManager mSensorManager;
 	
-	// 加速度矢量
-	private float[] accel = new float[3];
-	
-	// 局部平均加速度
-	private float[] localMeanAccel;
-	
-	// 加速度方差
-	private float[] accelVariance;
-	
-	// 判断条件，用于进行脚步探测
-	private int[] condition;
-	
-	// 陀螺仪矢量
-	private float[] gyro = new float[3];
-	
-	// 方向矢量
-	private float[] orient = new float[3];
-	
-	// 滑动窗口大小
-	private int swSize;
-	
-	// 滑动窗口,用于存储合加速度
-	private float[] slide_windows;
-	
-	// 局部窗口大小，用于计算局部平均加速度和方差
-	private static final int W = 15;
-	
+	/* ----------------------------------------------*/
+	// 用于checkForStep方法的参数
+	private float[] accel = new float[3]; // 加速度矢量
+	private float[] localMeanAccel; // 局部平均加速度
+	//private float[] accelVariance; // 加速度方差
+	private int[] condition; // 判断条件，用于进行脚步探测
+	private static final int W = 15; // 局部窗口大小，用于计算局部平均加速度和方差
+	private int swSize; // 滑动窗口大小
+	private float[] slide_windows_acc; // 滑动窗口,用于存储合加速度
 	// 滑动窗口指针，指示存储位置。
 	// 指针从2 * W处开始，前2 * W作为滑动窗口的缓冲使用。
 	private int swPointer = 2 * W;
-	
-	// 连续1或连续0的阈值
-	private static final int BLOCKSIZE = 8;
-	
-	private int stepCount = 0;
-	
+	private static final int BLOCKSIZE = 8; // 连续1或连续0的阈值
 	private boolean firstStart = true;
+	
+	/* ----------------------------------------------*/
+	// 用于gyroFunction方法的参数
+	public static final float EPSILON = 0.000000001f;
+	private float timestamp;
+	float dT = 0;
+	public float axisX = 0;
+	public float axisY = 0;
+	public float axisZ = 0;
+    private static final float NS2S = 1.0f / 1000000000.0f; // 纳秒到秒的转换
+    private final float[] deltaRotationVector = new float[4];
+    public float omegaMagnitude = 0;
+    public float[] matrix = new float[9]; // 旋转矩阵
+    private float[] orientation = new float[3]; // 方向角
+    private float[][] slide_windows_ori = new float[swSize][3]; //滑动窗口，用于存储方向
 	
 	/**
 	 * 构造函数
@@ -73,9 +65,9 @@ public class StepDetection {
 		this.context = context;
 		this.st = stepTrigger;
 		this.swSize = swSize;
-		this.slide_windows = new float[swSize];
+		this.slide_windows_acc = new float[swSize];
 		this.localMeanAccel = new float[swSize];
-		this.accelVariance = new float[swSize];
+		//this.accelVariance = new float[swSize];
 		mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 	}
 	
@@ -89,7 +81,7 @@ public class StepDetection {
 			switch(event.sensor.getType()) {
 		    case Sensor.TYPE_ACCELEROMETER:
 		    	System.arraycopy(event.values, 0, accel, 0, 3);
-		        slide_windows[swPointer % (swSize - 1)] = StepDetectionUtil.getMagnitudeOfAccel(accel);
+		    	slide_windows_acc[swPointer % (swSize - 1)] = StepDetectionUtil.getMagnitudeOfAccel(accel);
 		        if((swPointer == swSize - 1)) {
 		        	checkForStep(); // 开始脚步探测
 		        }
@@ -101,6 +93,7 @@ public class StepDetection {
 		        break;
 		 
 		    case Sensor.TYPE_GYROSCOPE:
+		    	gyroFunction(event); // 处理陀螺仪数据
 		        break;
 		
 		    case Sensor.TYPE_ORIENTATION:
@@ -118,6 +111,7 @@ public class StepDetection {
 	 * 注册传感器
 	 */
 	public void startSensor() {
+		Log.i(TAG, "[StepDetection] startSensor");
 		mSensorManager.registerListener(mSensorEventListener, 
 				mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				SensorManager.SENSOR_DELAY_FASTEST);
@@ -135,6 +129,7 @@ public class StepDetection {
 	 * 注销传感器
 	 */
 	public void stopSensor() {
+		Log.i(TAG, "[StepDetection] stopSensor");
 		mSensorManager.unregisterListener(mSensorEventListener);
 	}
 	
@@ -142,8 +137,9 @@ public class StepDetection {
 	 * 脚步探测算法，利用行走的加速度特征判断脚步
 	 */
 	private void checkForStep() {
-		localMeanAccel = StepDetectionUtil.getLocalMeanAccel(slide_windows, W);
-		//accelVariance = StepDetectionUtil.getAccelVariance(slide_windows, localMeanAccel, W);
+		Log.i(TAG, "[StepDetection] checkForStep");
+		localMeanAccel = StepDetectionUtil.getLocalMeanAccel(slide_windows_acc, W);
+		//accelVariance = StepDetectionUtil.getAccelVariance(slide_windows_acc, localMeanAccel, W);
 		float threshold = StepDetectionUtil.getAverageLocalMeanAccel(localMeanAccel) + 0.5f;
 		condition = StepDetectionUtil.getCondition(localMeanAccel, threshold);
 		
@@ -178,7 +174,7 @@ public class StepDetection {
 				if(numOne > BLOCKSIZE && numZero > BLOCKSIZE) {
 					numOne = 0;
 					numZero = 0;
-					st.trigger(slide_windows[i], 0);
+					st.trigger(slide_windows_acc[i], slide_windows_ori[swPointer]);
 				}
 			}
 		}
@@ -187,8 +183,48 @@ public class StepDetection {
 		 * 模拟循环队列。
 		*/
 		for(int k = 0; k < 2 * W; k++) {
-			slide_windows[k] = slide_windows[k + swSize - 2 * W];
+			slide_windows_acc[k] = slide_windows_acc[k + swSize - 2 * W];
 		}
 	}
+	
+	/**
+     * gyroFunction将陀螺仪数据积分，获取方向数据，
+     * 并将方向数据写入orientation
+     * @param event 传感器事件
+     */
+    public void gyroFunction(SensorEvent event) {
+    	Log.i(TAG, "[StepDetection] gyroFunction");
+        if(timestamp != 0) {
+			dT = (event.timestamp - timestamp) * NS2S;
+			axisX = event.values[0];
+			axisY = event.values[1];
+			axisZ = event.values[2];
+			
+			omegaMagnitude = (float) Math.sqrt(axisX * axisX + 
+					axisY * axisY + axisZ * axisZ);
+			if(omegaMagnitude > EPSILON) 
+			{	
+				axisX /= omegaMagnitude;
+				axisY /= omegaMagnitude;
+				axisZ /= omegaMagnitude;
+			}
+			
+			float thetaOverTwo = omegaMagnitude * dT / 2.0f;
+			float sinThetaOverTwo = (float) Math.sin(thetaOverTwo);
+			float cosThetaOverTwo = (float) Math.cos(thetaOverTwo);
+			deltaRotationVector[0] = sinThetaOverTwo * axisX;
+			deltaRotationVector[1] = sinThetaOverTwo * axisY;
+			deltaRotationVector[2] = sinThetaOverTwo * axisZ;
+			deltaRotationVector[3] = cosThetaOverTwo;
+		}
+		timestamp = event.timestamp;
+		float[] deltaRotationMatrix = new float[9];
+		SensorManager.getRotationMatrixFromVector(deltaRotationMatrix, 
+				deltaRotationVector);
+		
+		matrix = StepDetectionUtil.matrixMultiplication(matrix, deltaRotationMatrix);
+		SensorManager.getOrientation(matrix, orientation);
+		slide_windows_ori[swPointer] = orientation;
+    }
 	
 }

@@ -12,6 +12,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <uses-library android:name="com.google.android.maps" />
         
         <activity android:name=".app.AppStart" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" android:screenOrientation="portrait">
              <intent-filter>

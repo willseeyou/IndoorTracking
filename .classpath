@@ -4,5 +4,10 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="lib" path="E:/Users/will/AppData/Local/Android/android-sdk/add-ons/addon-google_apis-google-10/libs/maps.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/E:/Users/will/AppData/Local/Android/android-sdk/add-ons/addon-google_apis-google-10/docs/reference"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

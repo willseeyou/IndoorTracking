@@ -17,6 +17,8 @@ public class StepDetectionService extends Service implements StepTrigger {
 	
 	private int stepCount = 0;
 	
+	private float[] orientation = new float[3];
+	
 	// 客户通过mBinder和服务进行通信
 	private final IBinder mBinder = new StepDetectionBinder();
 	
@@ -52,12 +54,13 @@ public class StepDetectionService extends Service implements StepTrigger {
 	}
 
 	@Override
-	public void trigger(float length, float orientation) {
+	public void trigger(float length, float[] orientation) {
 		stepCount++;
+		this.orientation = orientation;
 	}
 	
-	public int getTest() {
-		return stepCount;
+	// 获取探测脚步数
+	public float getStep() {
+		return orientation[0];
 	}
-	
 }

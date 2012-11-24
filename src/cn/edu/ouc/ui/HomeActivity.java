@@ -3,6 +3,8 @@ package cn.edu.ouc.ui;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.google.android.maps.MapView;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -21,11 +23,13 @@ public class HomeActivity extends BaseActivity {
 
 	private static final String TAG = "HomeActivity";
 	
+	public final long INTERVAL_MS = 1000/30;
+	
 	private TextView stepTextView;
 	
 	StepDetectionService mService;
 	boolean mBound = false;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i(TAG, "[HomeActivity] onCreate");
@@ -69,8 +73,6 @@ public class HomeActivity extends BaseActivity {
 		super.onDestroy();
 	}
 
-
-
 	private static final int MENU_SETTINGS = 8;
 	private static final int MENU_QUIT = 9;
 
@@ -105,9 +107,9 @@ public class HomeActivity extends BaseActivity {
 			Intent intent = new Intent(this, StepDetectionService.class);
 	        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 			mBound = true;
+			updateUI();
 			return true;
 		case MENU_RESET:
-			load();
 			return true;
 		case MENU_QUIT:
 			finish();
@@ -132,26 +134,28 @@ public class HomeActivity extends BaseActivity {
 		}
 		
 	};
-	public final long INTERVAL_MS = 1000/30;
-
-	Timer timer;
 	
-	public void load() {
-		timer = new Timer("UpdateData", false);
-		TimerTask task = new TimerTask(){
+	// 更新界面
+	public void updateUI() {
+		timer = new Timer("update UI", false);
+		TimerTask task = new TimerTask() {
 
 			@Override
 			public void run() {
-				stepTextView.post(new Runnable() {
-					
-					@Override
-					public void run() {
-						stepTextView.setText(mService.getTest() + "");
-					}
-				});
+				if(mService != null) {
+					stepTextView.post(new Runnable() {
+						
+						@Override
+						public void run() {
+							stepTextView.setText(mService.getStep() + "");
+						}
+					});
+				}
 			}
+			
 		};
 		timer.schedule(task, 0, INTERVAL_MS);
 	}
 	
+	Timer timer;
 }
