@@ -154,7 +154,7 @@ public class HomeActivity extends BaseActivity {
 						
 						@Override
 						public void run() {
-							strideTextView.setText(mService.getHeading(1) + "");
+							strideTextView.setText(mService.getSL() + "");
 						}
 					});
 				}

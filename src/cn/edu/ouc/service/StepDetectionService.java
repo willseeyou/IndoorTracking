@@ -17,6 +17,8 @@ public class StepDetectionService extends Service implements StepTrigger {
 	
 	private int stepCount = 0;
 	
+	private float strideLength = 0;
+	
 	private float[] orientation = new float[3];
 	
 	private static final int HAND_HELD = 1; // 手持
@@ -57,8 +59,9 @@ public class StepDetectionService extends Service implements StepTrigger {
 	}
 
 	@Override
-	public void trigger(int stepCount, float length, float[] orientation) {
+	public void trigger(int stepCount, float strideLength, float[] orientation) {
 		this.stepCount = stepCount;
+		this.strideLength = strideLength;
 		this.orientation = orientation;
 	}
 	
@@ -67,7 +70,12 @@ public class StepDetectionService extends Service implements StepTrigger {
 		return stepCount;
 	}
 	
-	// 获取行进方向
+	// 获取步长
+	public float getSL() {
+		return strideLength;
+	}
+	
+	// 获取前进方向
 	public float getHeading(int CARRY_MODEL) {
 		switch(CARRY_MODEL) {
 		case HAND_HELD:
@@ -77,6 +85,5 @@ public class StepDetectionService extends Service implements StepTrigger {
 		default:
 			return (float) ((orientation[0] * 360 / Math.PI + 360) % 360); 
 		}
-		
 	}
 }

@@ -38,8 +38,9 @@ public class StepDetection {
 	// 指针从2 * W处开始，前2 * W作为滑动窗口的缓冲使用。
 	private int swPointer = 2 * W;
 	private static final int BLOCKSIZE = 8; // 连续1或连续0的阈值
-	private boolean firstStart = true;
-	private int stepCount;
+	private boolean firstStart = true; //判断程序是否首次运行，以便对滑动窗口的起始位置进行设定
+	private int stepCount; //探测脚步数
+	private float strideLength; //步长
 	
 	/* ----------------------------------------------*/
 	// 用于gyroFunction方法的参数
@@ -178,7 +179,9 @@ public class StepDetection {
 					numOne = 0;
 					numZero = 0;
 					stepCount++;
-					st.trigger(stepCount, 0, slide_windows_ori[swPointer]);
+					float meanA = StepDetectionUtil.getMean(localMeanAccel, j, W);
+					strideLength = StepDetectionUtil.getSL(0.67f, meanA);
+					st.trigger(stepCount, strideLength, slide_windows_ori[swPointer]);
 				}
 			}
 		}

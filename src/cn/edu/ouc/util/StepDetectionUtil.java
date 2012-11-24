@@ -1,6 +1,7 @@
 package cn.edu.ouc.util;
 
 
+
 public class StepDetectionUtil {
 	
 	/**
@@ -136,4 +137,81 @@ public class StepDetectionUtil {
      
         return result;
     }
+	
+	/**
+	 * Werberg SL 步长计算算法
+	 * @param k 步长计算参数，根据人体特征调节
+	 * @param maxA 局部最大加速度
+	 * @param minA 局部最小加速度
+	 * @return
+	 */
+	public static float getSL(float k, float maxA, float minA)
+	{
+		return (float) (k * Math.pow(maxA - minA, 0.25f));
+	}
+	
+	/**
+	 * 平滑步长计算算法
+	 * @param k 步长计算参数，根据人体特征调节
+	 * @param meanA 局部平均加速度
+	 * @return
+	 */
+	public static float getSL(float k, float meanA) {
+		return (float) (k * Math.pow(meanA, 1/3f));
+	}
+	
+	/**
+	 * 获取当前采样点j与周围-w ~ +w 个采样点中最大的加速度
+	 * @param magAccel 合加速度
+	 * @param j 当前采样点指针
+	 * @param w 
+	 * @return
+	 */
+	public static float getMax(float[] magAccel, int j, int w)
+	{
+		float a = magAccel[j];
+		float b = 0;
+		float maxA = 0;
+		for(int k = -w; k < w; k++) {						
+			b = magAccel[j+k];
+			maxA = a > b ? a : b;
+		}
+		return maxA;
+	}
+	
+	/**
+	 * 获取当前采样点j与周围-w ~ +w 个采样点中最小的加速度
+	 * @param magAccel 合加速度
+	 * @param j 当前采样点指针
+	 * @param w
+	 * @return
+	 */
+	public static float getMin(float [] magAccel, int j, int w)
+	{
+		float a = magAccel[j];
+		float b = 0;
+		float minA = 0;
+		for(int k = -w; k < w; k++) {						
+			b = magAccel[j+k];
+			minA = a < b ? a : b;
+		}
+		return minA;
+	}
+	
+	/**
+	 * 获取当前采样点j与周围-w ~ +w 个采样点的平均加速度
+	 * @param magAccel 合加速度
+	 * @param j 当前采样点指针
+	 * @param w
+	 * @return
+	 */
+	public static float getMean(float[] magAccel, int j, int w)
+	{
+		float sum = 0;
+		for(int i = -w; i < w; i++) {
+			sum += magAccel[j + i];
+		}
+		return sum / (2 * w);
+	}
+	
 }
