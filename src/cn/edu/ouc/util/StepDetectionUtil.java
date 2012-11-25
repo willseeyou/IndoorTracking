@@ -217,6 +217,50 @@ public class StepDetectionUtil {
 	}
 	
 	/**
+	 * 获取E的符号，如果为正，返回1；如果为负，返回-1；如果为0，返回0
+	 * @param E
+	 * @return
+	 */
+	public static int getSign(float E) {
+		if(E > 0) return 1;
+		if(E < 0) return -1;
+		return 0;
+	}
+	
+	public static float[] getRotationMatrixFromOrientation(float yaw, float pitch, float roll) {
+		float[] xM = new float[9];
+		float[] yM = new float[9];
+		float[] zM = new float[9];
+		
+		float sinX = (float) Math.sin(pitch);
+		float cosX = (float) Math.cos(pitch);
+		float sinY = (float) Math.sin(roll);
+		float cosY = (float) Math.cos(roll);
+		float sinZ = (float) Math.sin(yaw);
+		float cosZ = (float) Math.cos(yaw);
+		
+		// rotation about x-axis (pitch)
+		xM[0] = 1.0f; xM[1] = 0.0f; xM[2] = 0.0f;
+		xM[3] = 0.0f; xM[4] = cosX; xM[5] = sinX;
+		xM[6] = 0.0f; xM[7] = -sinX; xM[8] = cosX;
+		
+		// rotation about y-axis (roll)
+		yM[0] = cosY; yM[1] = 0.0f; yM[2] = sinY;
+		yM[3] = 0.0f; yM[4] = 1.0f; yM[5] = 0.0f;
+		yM[6] = -sinY; yM[7] = 0.0f; yM[8] = cosY;
+		
+		// rotation about z-axis(yaw)
+		zM[0] = cosZ; zM[1] = sinZ; zM[2] = 0.0f;
+		zM[3] = -sinZ; zM[4] = cosZ; zM[5] = 0.0f;
+		zM[6] = 0.0f; zM[7] = 0.0f; zM[8] = 1.0f;
+		
+		// rotation order is y, x, z (roll, pitch, yaw)
+		float[] resultMatrix = matrixMultiplication(xM, yM);
+		resultMatrix = matrixMultiplication(zM, resultMatrix);
+		return resultMatrix;
+	}
+	
+	/**
 	 * 
 	 * @param lat1
 	 * @param lng1

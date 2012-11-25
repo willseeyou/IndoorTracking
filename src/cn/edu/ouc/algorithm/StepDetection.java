@@ -63,7 +63,23 @@ public class StepDetection {
 	private static final String TBL_NAME = "track_tbl";
 	double lat = 36.16010;
     double lng = 120.491951;
+    
+    /* ----------------------------------------------*/
+	// HDE方向补偿相关参数
+	/* 误差标志: 
+	 * 如果E为正（行走方向偏向主方向的左侧）,控制器IController增加固定增量IC.
+	 * 如果E为负，控制器IController减少固定增量IC.
+	 */
+	private float E = 0.0f;
+	private float IC = -0.00009f; // 固定增量，表示控制器IController的补偿因子
+	private static final float DELTA = 90f; // 主方向间隔角度：各主方向互相垂直
+	float IController = 0; // 控制器，用来消除偏移误差
+	private int SIGN = 0; // 判断行走方向偏离主方向的哪一侧，SIGN = 1偏向左侧，SIGN = 0偏向右侧
+	private float priOrientation = 0f; // 前一步的方向
+	private boolean STEPDETECTED = false; // 脚步探测标志
+	 
 	
+    
 	/**
 	 * 构造函数
 	 * @param context
@@ -163,11 +179,14 @@ public class StepDetection {
 		
 		// 通过数连续1和连续0的个数判断脚步
 		for(int i = 0, j = 1; i < swSize - 1 && j < swSize - W; i++, j++) {
-			if(firstStart) {
-				i = 2 * W;
+			if(firstStart) { // 首次运行程序时，滑动窗口的初始位置设置为2 * W，
+				i = 2 * W;   // 前2 * W 用作缓冲区
 				j = i + 1;
 			}
 			firstStart = false;
+			
+			HDEComp(); // HDE校正过程
+			
 			flag = StepDetectionUtil.isOne(condition[i]); // 判断前一个采样点的判断条件i是否为1
 			/* 如果前一个采样点i的判断条件和当前采样点j的判断条件相同，
 			 * 并且都等于1，则numOne加1. */
@@ -188,11 +207,12 @@ public class StepDetection {
 				if(numOne > BLOCKSIZE && numZero > BLOCKSIZE) {
 					numOne = 0;
 					numZero = 0;
+					STEPDETECTED = true;
 					stepCount++;
 					float meanA = StepDetectionUtil.getMean(localMeanAccel, j, W);
 					strideLength = StepDetectionUtil.getSL(0.33f, meanA);
 					st.trigger(stepCount, (float) strideLength, orientation);
-					
+					priOrientation = (float) ((orientation[0] * 180 / Math.PI + 360) % 360);
 					saveToDb();
 				}
 			}
@@ -203,6 +223,22 @@ public class StepDetection {
 		*/
 		for(int k = 0; k < 2 * W; k++) {
 			slide_windows_acc[k] = slide_windows_acc[k + swSize - 2 * W];
+		}
+	}
+	
+	/**
+	 * HDE校正过程
+	 */
+	public void HDEComp() {
+		E = (float) (DELTA / 2 - priOrientation % DELTA);
+		IController += StepDetectionUtil.getSign(E) * IC;
+		if(STEPDETECTED) {
+			if(SIGN != StepDetectionUtil.getSign(E)) IController = 0;
+			orientation[0] = orientation[0] + IController;
+			System.out.println("orientation: " + (orientation[0] * 180 / Math.PI + 360) % 360);
+			matrix = StepDetectionUtil.getRotationMatrixFromOrientation(orientation[0], orientation[1], orientation[2]);
+			STEPDETECTED = false;
+			SIGN = StepDetectionUtil.getSign(E);
 		}
 	}
 	
