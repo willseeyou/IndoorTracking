@@ -28,7 +28,7 @@
     <string name="calorie_text">卡路里</string>
     <string name="calorie_unit">卡路里</string>
     <string name="frequency_text">步频</string>
-    <string name="freuqency_unit">步/分</string>
+    <string name="frequency_unit">步/分钟</string>
     <string name="enter_map">点击进入地图</string>
     
     <string name="dataHandling">数据处理</string>

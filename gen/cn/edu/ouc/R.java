@@ -107,8 +107,8 @@ public final class R {
         public static final int home_activity_menu=0x7f080000;
     }
     public static final class string {
-        public static final int AccelerationTransformation=0x7f060041;
-        public static final int CalculatingStepNum=0x7f060040;
+        public static final int AccelerationTransformation=0x7f060040;
+        public static final int CalculatingStepNum=0x7f06003f;
         public static final int accelerationTransformation=0x7f06001c;
         public static final int app_name=0x7f060000;
         public static final int bigstep=0x7f060031;
@@ -126,7 +126,6 @@ public final class R {
         public static final int enter_map=0x7f060017;
         public static final int frequency_text=0x7f060015;
         public static final int frequency_unit=0x7f060016;
-        public static final int freuqency_unit=0x7f06003f;
         public static final int hour=0x7f06002e;
         /**  Icon 
          */
