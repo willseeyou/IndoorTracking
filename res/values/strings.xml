@@ -2,7 +2,9 @@
 
     <string name="app_name">IndoorTracking</string>
     
+    <string name="indoor_tracking">Indoor Tracking</string>
     <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
     <string name="settings">Settings</string>
     
     <string name="dataHandling">Data Handling</string>
@@ -46,5 +48,15 @@
     <string name="openMap">Open Map</string>
   
     <string name="startpoint">Start Point</string>
+    
+    <!-- Icon -->
+    <string name="icon_record_track"
+        translation_description="The accessibility description for the record track icon.">
+        Record track
+    </string>
+    <string name="icon_stop_recording"
+        translation_description="The accessibility description for the stop recording icon.">
+        Stop recording
+    </string>
 
 </resources>

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2012 Ocean University of China.
+ *
+ */
+
 package cn.edu.ouc.algorithm;
 
 import android.content.ContentValues;
@@ -15,12 +20,13 @@ import cn.edu.ouc.util.StepDetectionUtil;
 /**
  * StepDetection类用于脚步探测.
  * 当探测到脚步时，调用回调函数StepTrigger,并将步长和方向当作参数传递.
- * @author will
- *
+ * 
+ * @author Chu Hongwei, Hong Feng
+ * @ University of China
  */
 public class StepDetection {
 
-	private static final String TAG = "StepDetection";
+	private static final String TAG = StepDetection.class.getSimpleName();
 	
 	private StepTrigger st; // 使用接口StepTrigger向外部组件通知脚步探测情况
 	

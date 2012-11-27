@@ -2,6 +2,8 @@
 <resources>
     
     <color name="white">#FFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="gray">#FF444444</color>
     
     <color name="head_text">#0e5986</color>
     

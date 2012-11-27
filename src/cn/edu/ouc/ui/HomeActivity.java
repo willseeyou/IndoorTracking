@@ -3,6 +3,7 @@ package cn.edu.ouc.ui;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +18,7 @@ import cn.edu.ouc.R;
 import cn.edu.ouc.service.StepDetectionService;
 import cn.edu.ouc.service.StepDetectionService.StepDetectionBinder;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends Activity {
 
 	private static final String TAG = "HomeActivity";
 	
@@ -77,23 +78,29 @@ public class HomeActivity extends BaseActivity {
 	private static final int MENU_QUIT = 9;
 
 	private static final int MENU_PAUSE = 1;
-	private static final int MENU_RESET = 2;
+	private static final int MENU_RESUME = 2;
+	private static final int MENU_RESET = 3;
 	
 	/* ´´½¨²Ëµ¥ */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.clear();
-		
-		menu.add(0, MENU_PAUSE, 0, R.string.pause)
-					.setIcon(android.R.drawable.ic_media_pause)
-					.setShortcut('1', 'p');
+		if (mBound) {
+            menu.add(0, MENU_PAUSE, 0, R.string.pause)
+            .setIcon(android.R.drawable.ic_media_pause)
+            .setShortcut('1', 'p');
+        }
+        else {
+            menu.add(0, MENU_RESUME, 0, R.string.resume)
+            .setIcon(android.R.drawable.ic_media_play)
+            .setShortcut('1', 'p');
+        }
 		menu.add(0, MENU_RESET, 0, R.string.reset)
 				.setIcon(android.R.drawable.ic_menu_close_clear_cancel)
-				.setShortcut('2', 'r');
+				.setShortcut('3', 'r');
 		menu.add(0, MENU_SETTINGS, 0, R.string.settings)
 				.setIcon(android.R.drawable.ic_menu_preferences)
-				.setShortcut('8', 's')
-				.setIntent(new Intent(this, GMapActivity.class));
+				.setShortcut('8', 's');
 		menu.add(0, MENU_QUIT, 0, R.string.quit)
 				.setIcon(android.R.drawable.ic_lock_power_off)
 				.setShortcut('9', 'q');
@@ -104,11 +111,12 @@ public class HomeActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case MENU_PAUSE:
+		case MENU_RESUME:
 			Intent intent = new Intent(this, StepDetectionService.class);
 	        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 			mBound = true;
 			updateUI();
+		case MENU_PAUSE:
 			return true;
 		case MENU_RESET:
 			return true;

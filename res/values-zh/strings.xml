@@ -2,7 +2,10 @@
 <resources>
     <string name="app_name">室内行人追踪</string>
     
+    <string name="indoor_tracking">室内行人追踪</string>
+    
     <string name="pause">暂停</string>
+    <string name="resume">开始</string>
     <string name="settings">设置</string>
     
     <string name="dataHandling">数据处理</string>
