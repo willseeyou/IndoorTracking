@@ -1,69 +1,50 @@
 package cn.edu.ouc.ui;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.SearchView;
 import cn.edu.ouc.R;
 import cn.edu.ouc.service.StepDetectionService;
 import cn.edu.ouc.service.StepDetectionService.StepDetectionBinder;
 
+@SuppressLint("NewApi")
 public class HomeActivity extends Activity {
 
 	private static final String TAG = "HomeActivity";
 	
 	public final long INTERVAL_MS = 1000/30;
 	
-	private TextView stepTextView;
-	private TextView strideTextView;
 	
 	StepDetectionService mService;
 	boolean mBound = false;
 
+	// The following are set in onCreate
+	// Munu items
+	private MenuItem searchMenuItem;
+	private MenuItem startMenuItem;
+	private MenuItem pauseMenuItem;
+	private MenuItem resetMenuItem;
+	private MenuItem settingsMenuItem;
+	private MenuItem helpMenuItem;
+	private MenuItem quitMenuItem;
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i(TAG, "[HomeActivity] onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		mService = null;
-		stepTextView = (TextView) findViewById(R.id.step_value);
-		strideTextView = (TextView) findViewById(R.id.strideLength_value);
 	}
 	
-	@Override
-	protected void onStart() {
-		Log.i(TAG, "[HomeActivity] onStart");
-		super.onStart();
-	}
-
-	@Override
-	protected void onPause() {
-		Log.i(TAG, "[HomeActivity] onPause");
-		super.onPause();
-	}
-
-	@Override
-	protected void onRestart() {
-		Log.i(TAG, "[HomeActivity] onRestart");
-		super.onRestart();
-	}
-
-	@Override
-	protected void onResume() {
-		Log.i(TAG, "[HomeActivity] onResume");
-		super.onResume();
-	}
-
 	@Override
 	protected void onDestroy() {
 		Log.i(TAG, "[HomeActivity] onDestroy");
@@ -74,36 +55,24 @@ public class HomeActivity extends Activity {
 		super.onDestroy();
 	}
 
-	private static final int MENU_SETTINGS = 8;
-	private static final int MENU_QUIT = 9;
-
-	private static final int MENU_PAUSE = 1;
-	private static final int MENU_RESUME = 2;
-	private static final int MENU_RESET = 3;
-	
-	/* 创建菜单 */
+	@SuppressLint("NewApi")
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		menu.clear();
-		if (mBound) {
-            menu.add(0, MENU_PAUSE, 0, R.string.pause)
-            .setIcon(android.R.drawable.ic_media_pause)
-            .setShortcut('1', 'p');
-        }
-        else {
-            menu.add(0, MENU_RESUME, 0, R.string.resume)
-            .setIcon(android.R.drawable.ic_media_play)
-            .setShortcut('1', 'p');
-        }
-		menu.add(0, MENU_RESET, 0, R.string.reset)
-				.setIcon(android.R.drawable.ic_menu_close_clear_cancel)
-				.setShortcut('3', 'r');
-		menu.add(0, MENU_SETTINGS, 0, R.string.settings)
-				.setIcon(android.R.drawable.ic_menu_preferences)
-				.setShortcut('8', 's');
-		menu.add(0, MENU_QUIT, 0, R.string.quit)
-				.setIcon(android.R.drawable.ic_lock_power_off)
-				.setShortcut('9', 'q');
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.home_activity_menu, menu);
+		
+		searchMenuItem = menu.findItem(R.id.home_activity_search);
+		startMenuItem = menu.findItem(R.id.home_activity_start);
+		pauseMenuItem = menu.findItem(R.id.home_activity_pause);
+		resetMenuItem = menu.findItem(R.id.home_activity_reset);
+		settingsMenuItem = menu.findItem(R.id.home_activity_settings);
+		helpMenuItem = menu.findItem(R.id.home_activity_help);
+		quitMenuItem = menu.findItem(R.id.home_activity_quit);
+		
+		SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+		SearchView searchView = (SearchView) searchMenuItem.getActionView();
+		searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
+		searchView.setQueryRefinementEnabled(true);
+		
 		return true;
 	}
 
@@ -111,16 +80,19 @@ public class HomeActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case MENU_RESUME:
-			Intent intent = new Intent(this, StepDetectionService.class);
+		case R.id.home_activity_start:
+			/*Intent intent = new Intent(this, StepDetectionService.class);
 	        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-			mBound = true;
-			updateUI();
-		case MENU_PAUSE:
+			mBound = true;*/
+		case R.id.home_activity_pause:
 			return true;
-		case MENU_RESET:
+		case R.id.home_activity_reset:
 			return true;
-		case MENU_QUIT:
+		case R.id.home_activity_settings:
+			return true;
+		case R.id.home_activity_help:
+			return true;
+		case R.id.home_activity_quit:
 			finish();
 			return true;
 		}
@@ -144,34 +116,4 @@ public class HomeActivity extends Activity {
 		
 	};
 	
-	// 更新界面
-	public void updateUI() {
-		timer = new Timer("update UI", false);
-		TimerTask task = new TimerTask() {
-
-			@Override
-			public void run() {
-				if(mService != null) {
-					stepTextView.post(new Runnable() {
-						
-						@Override
-						public void run() {
-							stepTextView.setText(mService.getStep() + "");
-						}
-					});
-					strideTextView.post(new Runnable() {
-						
-						@Override
-						public void run() {
-							strideTextView.setText(mService.getHeading(1) + "");
-						}
-					});
-				}
-			}
-			
-		};
-		timer.schedule(task, 0, INTERVAL_MS);
-	}
-	
-	Timer timer;
 }

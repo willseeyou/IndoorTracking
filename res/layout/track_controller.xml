@@ -32,7 +32,8 @@ limitations under the License.
             android:id="@+id/track_controller_record"
             android:layout_height="wrap_content"
             android:layout_weight="10"
-            android:layout_width="0dp" />
+            android:layout_width="0dp"
+            android:src="@drawable/btn_record" />
         <RelativeLayout
             android:layout_height="fill_parent"
             android:layout_weight="6"

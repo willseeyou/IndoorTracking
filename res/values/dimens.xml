@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="text_size_50">50.0dip</dimen>
+    <dimen name="text_size_30">30.0dip</dimen>
+    <dimen name="text_size_25">25.0dip</dimen>
+    <dimen name="text_size_15">15.0dip</dimen>
     <dimen name="text_size_19">19.0dip</dimen>
     <dimen name="text_size_10">10.0dip</dimen>
     
@@ -18,7 +22,7 @@
     <dimen name="button">48sp</dimen>
     <dimen name="button_sign">24sp</dimen>
 
-    <dimen name="margin">10px</dimen>
+    <dimen name="margin">15px</dimen>
     <dimen name="padding">5px</dimen>
     <dimen name="row_spacing">10px</dimen>
 </resources>

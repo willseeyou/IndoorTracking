@@ -11,6 +11,11 @@
     android:id="@+id/home_activity_start"
     android:showAsAction="ifRoom"
     android:title="@string/menu_start"/>
+  <item
+    android:icon="@android:drawable/ic_media_pause"
+    android:id="@+id/home_activity_pause"
+    android:showAsAction="ifRoom"
+    android:title="@string/menu_pause"/>
    <item
     android:icon="@android:drawable/ic_menu_close_clear_cancel"
     android:id="@+id/home_activity_reset"

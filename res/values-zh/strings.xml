@@ -4,9 +4,32 @@
     
     <string name="indoor_tracking">室内行人追踪</string>
     
-    <string name="pause">暂停</string>
-    <string name="resume">开始</string>
-    <string name="settings">设置</string>
+    <!-- Menu -->
+    <string name="menu_search">搜索</string>
+    <string name="menu_pause">暂停</string>
+    <string name="menu_start">开始</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_reset">重置</string>
+    <string name="menu_help">帮助</string>
+    <string name="menu_quit">退出</string>
+    
+    <!-- Number -->
+    <string name="zero">0</string>
+    <string name="zerodotzero">0.0</string>
+    <string name="zerodotzerozero">0.00</string>
+    
+    <string name="step_unit">步</string>
+    <string name="length_unit">步长</string>
+    <string name="velocity_icon_description">速度图标</string>
+    <string name="velocity_text">速度</string>
+    <string name="velocity_unit">公里/时</string>
+    <string name="distance_text">距离</string>
+    <string name="distance_unit">公里</string>
+    <string name="calorie_text">卡路里</string>
+    <string name="calorie_unit">卡路里</string>
+    <string name="frequency_text">步频</string>
+    <string name="freuqency_unit">步/分</string>
+    <string name="enter_map">点击进入地图</string>
     
     <string name="dataHandling">数据处理</string>
     <string name="pedometer">计步器</string>

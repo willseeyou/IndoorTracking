@@ -3,9 +3,34 @@
     <string name="app_name">IndoorTracking</string>
     
     <string name="indoor_tracking">Indoor Tracking</string>
-    <string name="pause">Pause</string>
-    <string name="resume">Resume</string>
-    <string name="settings">Settings</string>
+    
+    <!-- Menu -->
+    <string name="menu_search">Search</string>
+    <string name="menu_pause">Pause</string>
+    <string name="menu_start">Start</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_reset">Reset</string>
+    <string name="menu_quit">Quit</string>
+    
+    <!-- Number -->
+    <string name="zero">0</string>
+    <string name="zerodotzero">0.0</string>
+    <string name="zerodotzerozero">0.00</string>
+    
+    <string name="step_unit">Step</string>
+   	<string name="length_unit">Step Length</string>
+   	<string name="velocity_icon_description">Velocity Icon</string>
+   	<string name="velocity_text">Velocity</string>
+   	<string name="velocity_unit">Km/h</string>
+   	<string name="distance_text">Distance</string>
+   	<string name="distance_unit">Km</string>
+   	<string name="calorie_text">Calorie</string>
+   	<string name="calorie_unit">Calorie</string>
+   	<string name="frequency_text">Frequency</string>
+   	<string name="frequency_unit">Steps/m</string>
+   	<string name="enter_map">Enter Map</string>
+   	
     
     <string name="dataHandling">Data Handling</string>
     <string name="pedometer">Pedometer</string>
