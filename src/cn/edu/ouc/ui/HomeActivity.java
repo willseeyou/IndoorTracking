@@ -3,30 +3,43 @@ package cn.edu.ouc.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.ServiceConnection;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.SearchView;
 import cn.edu.ouc.R;
-import cn.edu.ouc.service.StepDetectionService;
-import cn.edu.ouc.service.StepDetectionService.StepDetectionBinder;
+import cn.edu.ouc.services.StepDetectionService;
 
-@SuppressLint("NewApi")
 public class HomeActivity extends Activity {
 
 	private static final String TAG = "HomeActivity";
 	
 	public final long INTERVAL_MS = 1000/30;
 	
+	private final OnClickListener recordListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(getApplicationContext(), StepDetectionService.class);
+	        trackController.bindService(getApplicationContext(), intent);
+		}
+	};
 	
-	StepDetectionService mService;
-	boolean mBound = false;
+	private final OnClickListener stopListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			trackController.unbindService(getApplicationContext());
+		}
+		
+	};
 
+	StepDetectionService stepDetectionService;
+	
 	// The following are set in onCreate
 	// Munu items
 	private MenuItem searchMenuItem;
@@ -36,22 +49,32 @@ public class HomeActivity extends Activity {
 	private MenuItem settingsMenuItem;
 	private MenuItem helpMenuItem;
 	private MenuItem quitMenuItem;
+	
+	private Button openMapButton;
+	
+	private TrackController trackController;
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i(TAG, "[HomeActivity] onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		mService = null;
+		openMapButton = (Button) findViewById(R.id.open_map_btn);
+		openMapButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), GMapActivity.class);
+				startActivity(intent);
+			}
+		});
+		trackController = new TrackController(this, true, recordListener, stopListener);
 	}
 	
 	@Override
 	protected void onDestroy() {
 		Log.i(TAG, "[HomeActivity] onDestroy");
-		if (mBound) {
-            unbindService(mConnection);
-            mBound = false;
-        }
+		if(!trackController.isRecording())
+		trackController.unbindService(this);
 		super.onDestroy();
 	}
 
@@ -81,9 +104,7 @@ public class HomeActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.home_activity_start:
-			/*Intent intent = new Intent(this, StepDetectionService.class);
-	        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-			mBound = true;*/
+			return true;
 		case R.id.home_activity_pause:
 			return true;
 		case R.id.home_activity_reset:
@@ -91,6 +112,8 @@ public class HomeActivity extends Activity {
 		case R.id.home_activity_settings:
 			return true;
 		case R.id.home_activity_help:
+			Intent intent = new Intent(this, HelpActivity.class);
+			startActivity(intent);
 			return true;
 		case R.id.home_activity_quit:
 			finish();
@@ -98,22 +121,5 @@ public class HomeActivity extends Activity {
 		}
 		return false;
 	}
-	
-	/** 定义服务绑定的回调函数，传给bindService */
-	private ServiceConnection mConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			StepDetectionBinder binder = (StepDetectionBinder) service;
-			mService = binder.getService();
-			mBound = true;
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			mBound = false;
-		}
-		
-	};
 	
 }

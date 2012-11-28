@@ -21,8 +21,9 @@
 		        <category android:name="android.intent.category.LAUNCHER" />
 		    </intent-filter>
         </activity>
-        <activity android:name=".ui.GMapActivity" android:theme="@android:style/Theme.NoTitleBar" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation" android:launchMode="singleTask"></activity>
-        <service android:name=".service.StepDetectionService" />
+        <activity android:name=".ui.GMapActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.HelpActivity" android:screenOrientation="portrait"/>
+        <service android:name=".services.StepDetectionService" />
     </application>
 
 </manifest>

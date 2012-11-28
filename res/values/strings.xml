@@ -18,6 +18,7 @@
     <string name="zerodotzero">0.0</string>
     <string name="zerodotzerozero">0.00</string>
     
+    <!-- Main Layout -->
     <string name="step_unit">Step</string>
    	<string name="length_unit">Step Length</string>
    	<string name="velocity_icon_description">Velocity Icon</string>
@@ -30,50 +31,7 @@
    	<string name="frequency_text">Frequency</string>
    	<string name="frequency_unit">Steps/m</string>
    	<string name="enter_map">Enter Map</string>
-   	
-    
-    <string name="dataHandling">Data Handling</string>
-    <string name="pedometer">Pedometer</string>
-    <string name="quit">Quit</string>
-    <string name="calculatingStepNum">Calculating Step Number</string>
-    <string name="accelerationTransformation">Acceleration Transformation</string>
-        
-    <string name="thresholdText">Please enter threshold:(10.0~12.0)</string>
-    <string name="kText">Please enter k:(0.4~0.6)</string>
-    <string name="deleteFile">Delete File</string>
-    <string name="bindService">Start Count</string>
-    <string name="unbindService">Stop Count</string>
-    <string name="reset">Reset</string>
-    <string name="offlineBtn">Off-line Calculate</string>
-    <string name="strideLength">Stride Length：miles</string>
-    <string name="totalLength">Total Length: miles</string>
 
-    <string name="steps">steps</string>
-    <string name="kilometers">kilometers</string>
-    <string name="miles">miles</string>
-    <string name="steps_per_minute">steps / minute</string>
-    <string name="kilometers_per_hour">Velocity: kilometers / hour</string>
-    <string name="miles_per_second">Velocity: miles / second</string>
-    <string name="realtime">Real-Time</string>
-    <string name="offline">Off-Line</string>
-    
-    <string name="hour">Hour</string>
-    <string name="minute">Minute</string>
-    <string name="second">Second</string>
-    <string name="bigstep">Big Step</string>
-    <string name="smallstep">Small Step</string>
-    <string name="startcounting">Start</string>
-    <string name="counting">Continue</string>
-    <string name="stopcounting">Stop</string>
-    <string name="continuecounting">Resume</string>
-    <string name="offlinecalculating">OfflineCalculating</string>
-    <string name="suretoquit">Are you sure to quit?</string>
-    <string name="sure">OK</string>
-    <string name="cancel">Cancel</string>
-    <string name="openMap">Open Map</string>
-  
-    <string name="startpoint">Start Point</string>
-    
     <!-- Icon -->
     <string name="icon_record_track"
         translation_description="The accessibility description for the record track icon.">
@@ -83,5 +41,40 @@
         translation_description="The accessibility description for the stop recording icon.">
         Stop recording
     </string>
-
+    <string name="icon_pause_recording"
+    translation_description="The accessibility description for the pause recording icon.">
+    Pause recording
+  	</string>
+  	
+    <!-- Generic Strings -->
+    <string name="generic_paused"
+    translation_description="Text indicating a track is paused.">
+    Paused
+  	</string>
+  	<string name="generic_recording"
+    translation_description="Text indicating a track is recording.">
+    Recording&#8230;
+  	</string>
+  	<string name="generic_ok"
+    translation_description="The text on a button to say ok.">
+    OK
+  	</string>
+  	
+  	<!-- Help page -->
+	<string name="help_indoor_tracks_question"
+	translation_description="In the 'Help' page, the question on what is Indoor Tracks.">
+	What is Indoor Tracks?
+	</string>
+	<string name="help_indoor_tracks_answer"
+    translation_description="In the 'Help' page, the answer on what is Indoor Tracks.">
+    Indoor Tracks allows you to record indoor tracks and visualize your walking activity while watching live performance statistics. Indoor Tracks makes it easy to archive
+    your training history with Google Maps and share your activities with friends and the world.
+  	</string>
+  	<!-- Help page -->
+  	<string name="help_about"
+    translation_description="In the 'Help' page, the button on the bottom to open the 'About Indoor
+      Tracks' dialog.">
+    About Indoor Tracks
+  </string>
+	
 </resources>

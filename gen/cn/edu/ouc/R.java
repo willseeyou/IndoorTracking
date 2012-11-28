@@ -12,10 +12,11 @@ public final class R {
     }
     public static final class color {
         public static final int black=0x7f040001;
-        public static final int display_background=0x7f040005;
+        public static final int display_background=0x7f040006;
         public static final int gray=0x7f040002;
-        public static final int head_text=0x7f040003;
-        public static final int screen_background=0x7f040004;
+        public static final int head_text=0x7f040004;
+        public static final int red=0x7f040003;
+        public static final int screen_background=0x7f040005;
         public static final int white=0x7f040000;
     }
     public static final class dimen {
@@ -51,90 +52,98 @@ public final class R {
         public static final int distance=0x7f020007;
         public static final int frame_logo_pdr=0x7f020008;
         public static final int frequency=0x7f020009;
-        public static final int ic_launcher=0x7f02000a;
-        public static final int marker=0x7f02000b;
-        public static final int markera=0x7f02000c;
-        public static final int speed=0x7f02000d;
-        public static final int widget_head_bg=0x7f02000e;
+        public static final int green_dot=0x7f02000a;
+        public static final int ic_launcher=0x7f02000b;
+        public static final int marker=0x7f02000c;
+        public static final int markera=0x7f02000d;
+        public static final int red_dot=0x7f02000e;
+        public static final int speed=0x7f02000f;
+        public static final int widget_head_bg=0x7f020010;
     }
     public static final class id {
-        public static final int MapView01=0x7f090000;
-        public static final int calorie=0x7f090010;
-        public static final int calorie_and_frequency=0x7f09000f;
-        public static final int calorie_text=0x7f090013;
-        public static final int calorie_unit=0x7f090012;
-        public static final int calorie_values=0x7f090011;
-        public static final int distance=0x7f09000b;
-        public static final int distance_text=0x7f09000e;
-        public static final int distance_unit=0x7f09000d;
-        public static final int distance_values=0x7f09000c;
-        public static final int frequency=0x7f090014;
-        public static final int frequency_text=0x7f090017;
-        public static final int frequency_unit=0x7f090016;
-        public static final int frequency_values=0x7f090015;
-        public static final int home_activity_help=0x7f090024;
-        public static final int home_activity_pause=0x7f090021;
-        public static final int home_activity_quit=0x7f090025;
-        public static final int home_activity_reset=0x7f090022;
-        public static final int home_activity_search=0x7f09001f;
-        public static final int home_activity_settings=0x7f090023;
-        public static final int home_activity_start=0x7f090020;
-        public static final int length_units=0x7f090005;
-        public static final int length_values=0x7f090003;
-        public static final int open_google_map=0x7f090018;
-        public static final int open_google_map_btn=0x7f090019;
-        public static final int step_and_length=0x7f090001;
-        public static final int step_units=0x7f090004;
-        public static final int step_values=0x7f090002;
-        public static final int track_controller_container=0x7f09001a;
-        public static final int track_controller_record=0x7f09001b;
-        public static final int track_controller_status=0x7f09001d;
-        public static final int track_controller_stop=0x7f09001e;
-        public static final int track_controller_total_time=0x7f09001c;
-        public static final int velocity=0x7f090007;
-        public static final int velocity_and_distance=0x7f090006;
-        public static final int velocity_text=0x7f09000a;
-        public static final int velocity_unit=0x7f090009;
-        public static final int velocity_values=0x7f090008;
+        public static final int MapView01=0x7f09001c;
+        public static final int calorie=0x7f090011;
+        public static final int calorie_and_frequency=0x7f090010;
+        public static final int calorie_text=0x7f090014;
+        public static final int calorie_unit=0x7f090013;
+        public static final int calorie_values=0x7f090012;
+        public static final int distance=0x7f09000c;
+        public static final int distance_text=0x7f09000f;
+        public static final int distance_unit=0x7f09000e;
+        public static final int distance_values=0x7f09000d;
+        public static final int frequency=0x7f090015;
+        public static final int frequency_text=0x7f090018;
+        public static final int frequency_unit=0x7f090017;
+        public static final int frequency_values=0x7f090016;
+        public static final int help_about=0x7f090001;
+        public static final int help_ok=0x7f090000;
+        public static final int home_activity_help=0x7f090026;
+        public static final int home_activity_pause=0x7f090023;
+        public static final int home_activity_quit=0x7f090027;
+        public static final int home_activity_reset=0x7f090024;
+        public static final int home_activity_search=0x7f090021;
+        public static final int home_activity_settings=0x7f090025;
+        public static final int home_activity_start=0x7f090022;
+        public static final int length_units=0x7f090006;
+        public static final int length_values=0x7f090004;
+        public static final int open_map_btn=0x7f09001a;
+        public static final int open_map_layout=0x7f090019;
+        public static final int step_and_length=0x7f090002;
+        public static final int step_units=0x7f090005;
+        public static final int step_values=0x7f090003;
+        public static final int track_controller_container=0x7f09001b;
+        public static final int track_controller_record=0x7f09001d;
+        public static final int track_controller_status=0x7f09001f;
+        public static final int track_controller_stop=0x7f090020;
+        public static final int track_controller_total_time=0x7f09001e;
+        public static final int velocity=0x7f090008;
+        public static final int velocity_and_distance=0x7f090007;
+        public static final int velocity_text=0x7f09000b;
+        public static final int velocity_unit=0x7f09000a;
+        public static final int velocity_values=0x7f090009;
     }
     public static final class layout {
-        public static final int googlemap=0x7f030000;
-        public static final int main=0x7f030001;
-        public static final int main_1=0x7f030002;
-        public static final int track_controller=0x7f030003;
+        public static final int help=0x7f030000;
+        public static final int help_buttons=0x7f030001;
+        public static final int main=0x7f030002;
+        public static final int map_layout=0x7f030003;
+        public static final int track_controller=0x7f030004;
     }
     public static final class menu {
-        public static final int home_activity_menu=0x7f080000;
+        public static final int gmap_activity_menu=0x7f080000;
+        public static final int home_activity_menu=0x7f080001;
     }
     public static final class string {
-        public static final int AccelerationTransformation=0x7f060040;
-        public static final int CalculatingStepNum=0x7f06003f;
-        public static final int accelerationTransformation=0x7f06001c;
         public static final int app_name=0x7f060000;
-        public static final int bigstep=0x7f060031;
-        public static final int bindService=0x7f060020;
-        public static final int calculatingStepNum=0x7f06001b;
         public static final int calorie_text=0x7f060013;
         public static final int calorie_unit=0x7f060014;
-        public static final int cancel=0x7f06003a;
-        public static final int continuecounting=0x7f060036;
-        public static final int counting=0x7f060034;
-        public static final int dataHandling=0x7f060018;
-        public static final int deleteFile=0x7f06001f;
         public static final int distance_text=0x7f060011;
         public static final int distance_unit=0x7f060012;
         public static final int enter_map=0x7f060017;
         public static final int frequency_text=0x7f060015;
         public static final int frequency_unit=0x7f060016;
-        public static final int hour=0x7f06002e;
-        /**  Icon 
+        public static final int generic_ok=0x7f06001d;
+        /**  Generic Strings 
+ Generic Strings 
          */
-        public static final int icon_record_track=0x7f06003d;
-        public static final int icon_stop_recording=0x7f06003e;
+        public static final int generic_paused=0x7f06001b;
+        public static final int generic_recording=0x7f06001c;
+        /**  Help page 
+ Help page 
+         */
+        public static final int help_about=0x7f060020;
+        public static final int help_indoor_tracks_answer=0x7f06001f;
+        /**  Help page 
+ Help page 
+         */
+        public static final int help_indoor_tracks_question=0x7f06001e;
+        public static final int icon_pause_recording=0x7f06001a;
+        /**  Icon 
+ Icon 
+         */
+        public static final int icon_record_track=0x7f060018;
+        public static final int icon_stop_recording=0x7f060019;
         public static final int indoor_tracking=0x7f060001;
-        public static final int kText=0x7f06001e;
-        public static final int kilometers=0x7f060027;
-        public static final int kilometers_per_hour=0x7f06002a;
         public static final int length_unit=0x7f06000d;
         public static final int menu_help=0x7f060006;
         public static final int menu_pause=0x7f060003;
@@ -146,31 +155,10 @@ public final class R {
         public static final int menu_search=0x7f060002;
         public static final int menu_settings=0x7f060005;
         public static final int menu_start=0x7f060004;
-        public static final int miles=0x7f060028;
-        public static final int miles_per_second=0x7f06002b;
-        public static final int minute=0x7f06002f;
-        public static final int offline=0x7f06002d;
-        public static final int offlineBtn=0x7f060023;
-        public static final int offlinecalculating=0x7f060037;
-        public static final int openMap=0x7f06003b;
-        public static final int pedometer=0x7f060019;
-        public static final int quit=0x7f06001a;
-        public static final int realtime=0x7f06002c;
-        public static final int reset=0x7f060022;
-        public static final int second=0x7f060030;
-        public static final int smallstep=0x7f060032;
-        public static final int startcounting=0x7f060033;
-        public static final int startpoint=0x7f06003c;
+        /**  Main Layout 
+ Main Layout 
+         */
         public static final int step_unit=0x7f06000c;
-        public static final int steps=0x7f060026;
-        public static final int steps_per_minute=0x7f060029;
-        public static final int stopcounting=0x7f060035;
-        public static final int strideLength=0x7f060024;
-        public static final int sure=0x7f060039;
-        public static final int suretoquit=0x7f060038;
-        public static final int thresholdText=0x7f06001d;
-        public static final int totalLength=0x7f060025;
-        public static final int unbindService=0x7f060021;
         public static final int velocity_icon_description=0x7f06000e;
         public static final int velocity_text=0x7f06000f;
         public static final int velocity_unit=0x7f060010;
@@ -182,10 +170,31 @@ public final class R {
         public static final int zerodotzerozero=0x7f06000b;
     }
     public static final class style {
-        public static final int MyTracksActionBar=0x7f070006;
+        /**  bottom button 
+         */
+        public static final int BottomButton=0x7f07000b;
+        /**  bottom button bar 
+         */
+        public static final int BottomButtonBar=0x7f07000c;
+        /**  help answer 
+         */
+        public static final int HelpAnswer=0x7f070009;
+        /**  help question 
+         */
+        public static final int HelpQuestion=0x7f07000a;
+        public static final int MyTracksActionBar=0x7f07000d;
+        /**  scroll view 
+         */
+        public static final int ScrollView=0x7f070007;
+        /**  scroll view with bottom buttons 
+         */
+        public static final int ScrollView_WithBottomButtons=0x7f070008;
         /**  text large 
          */
         public static final int TextLarge=0x7f070002;
+        /**  text medium 
+         */
+        public static final int TextMedium=0x7f070005;
         /**  text micro 
          */
         public static final int TextMicro=0x7f070003;
@@ -195,7 +204,7 @@ public final class R {
         public static final int ThemeSelector=0x7f070000;
         /**  track controller container 
          */
-        public static final int TrackControllerContainer=0x7f070005;
+        public static final int TrackControllerContainer=0x7f070006;
         public static final int main_head_title=0x7f070001;
     }
 }

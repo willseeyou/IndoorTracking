@@ -32,6 +32,12 @@
 	    <item name="android:layout_width">wrap_content</item>
 	    <item name="android:textSize">14sp</item>
 	</style>
+	<!-- text medium -->
+  	<style name="TextMedium">
+    	<item name="android:layout_height">wrap_content</item>
+    	<item name="android:layout_width">wrap_content</item>
+    	<item name="android:textSize">18sp</item>
+ 	</style>
 	
     <!-- track controller container -->
 	<style name="TrackControllerContainer">
@@ -39,4 +45,39 @@
 	    <item name="android:layout_width">fill_parent</item>
 	    <item name="android:orientation">vertical</item>
 	</style>
+	<!-- scroll view -->
+  	<style name="ScrollView">
+    	<item name="android:layout_height">fill_parent</item>
+    	<item name="android:layout_width">fill_parent</item>
+    	<item name="android:scrollbarStyle">outsideInset</item>
+  	</style>
+	<!-- scroll view with bottom buttons -->
+  	<style name="ScrollView.WithBottomButtons">
+    	<item name="android:layout_height">0dp</item>
+    	<item name="android:layout_weight">1</item>
+  	</style>
+  	<!-- help answer -->
+  	<style name="HelpAnswer" parent="@style/TextSmall">
+    	<item name="android:autoLink">web</item>
+    	<item name="android:paddingBottom">8dp</item>
+  	</style>
+  	<!-- help question -->
+  	<style name="HelpQuestion" parent="@style/TextMedium">
+    	<item name="android:paddingTop">8dp</item>
+    	<item name="android:textStyle">bold</item>
+  	</style>
+  	<!-- bottom button -->
+  	<style name="BottomButton">
+    	<item name="android:layout_height">wrap_content</item>
+    	<item name="android:layout_weight">1</item>
+    	<item name="android:layout_width">0dp</item>
+    	<item name="android:maxLines">2</item>
+ 	 </style>
+  	<!-- bottom button bar -->
+  	<style name="BottomButtonBar">
+   		<item name="android:layout_height">wrap_content</item>
+    	<item name="android:layout_width">fill_parent</item>
+    	<item name="android:orientation">horizontal</item>
+    	<item name="android:measureWithLargestChild">true</item>
+  	</style>
 </resources>

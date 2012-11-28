@@ -1,4 +1,4 @@
-package cn.edu.ouc.service;
+package cn.edu.ouc.services;
 
 import android.app.Service;
 import android.content.Intent;

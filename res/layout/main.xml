@@ -28,7 +28,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_50" 
-                android:text="@string/zero" />
+                android:text="@string/zerodotzero" />
         </TableRow>
         <TableRow
             android:layout_width="fill_parent"
@@ -230,14 +230,14 @@
     </TableLayout>
     
     <LinearLayout
-        android:id="@+id/open_google_map"
+        android:id="@+id/open_map_layout"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/open_google_map_btn"
+            android:id="@+id/open_map_btn"
             android:layout_width="234dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

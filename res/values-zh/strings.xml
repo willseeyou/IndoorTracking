@@ -18,6 +18,7 @@
     <string name="zerodotzero">0.0</string>
     <string name="zerodotzerozero">0.00</string>
     
+    <!-- Main Layout -->
     <string name="step_unit">步</string>
     <string name="length_unit">步长</string>
     <string name="velocity_icon_description">速度图标</string>
@@ -31,45 +32,49 @@
     <string name="frequency_unit">步/分钟</string>
     <string name="enter_map">点击进入地图</string>
     
-    <string name="dataHandling">数据处理</string>
-    <string name="pedometer">计步器</string>
-    <string name="quit">退出</string>
-    <string name="CalculatingStepNum">计算步数</string>
-    <string name="AccelerationTransformation">加速度转换</string>
+    <!-- Icon -->
+    <string name="icon_record_track"
+        translation_description="The accessibility description for the record track icon.">
+        开始记录
+    </string>
+    <string name="icon_stop_recording"
+        translation_description="The accessibility description for the stop recording icon.">
+        停止记录
+    </string>
+    <string name="icon_pause_recording"
+    translation_description="The accessibility description for the pause recording icon.">
+        暂停记录
+  	</string>
+  	
+    <!-- Generic Strings -->
+    <string name="generic_paused"
+    translation_description="Text indicating a track is paused.">
+         暂停
+  	</string>
+  	<string name="generic_recording"
+    translation_description="Text indicating a track is recording.">
+         正在记录&#8230;
+  	</string>
+  	<string name="generic_ok"
+    translation_description="The text on a button to say ok.">
+         确定
+  	</string>
+  	
+  	<!-- Help page -->
+	<string name="help_indoor_tracks_question"
+	translation_description="In the 'Help' page, the question on what is Indoor Tracks.">
+	什么是"室内行人追踪"?
+	</string>
+	<string name="help_indoor_tracks_answer"
+    translation_description="In the 'Help' page, the answer on what is Indoor Tracks.">
+    Indoor Tracks allows you to record indoor tracks and visualize your walking activity while watching live performance statistics. Indoor Tracks makes it easy to archive
+    your training history with Google Maps and share your activities with friends and the world.
+  	</string>
+  	<!-- Help page -->
+  	<string name="help_about"
+    translation_description="In the 'Help' page, the button on the bottom to open the 'About Indoor
+      Tracks' dialog.">
+    关于"室内行人追踪"
+  </string>
     
-    <string name="thresholdText">请输入阈值(10.0~12.0):</string>
-    <string name="kText">请输入K(0.4~0.6):</string>
-    <string name="deleteFile">删除文件</string>
-    <string name="bindService">开始计数</string>
-    <string name="unbindService">停止计数</string>
-    <string name="reset">重置</string>
-    <string name="offlineBtn">离线计算</string>
-    <string name="strideLength">平均步长：米</string>
-    <string name="totalLength">行走距离：米</string>
-
-	<string name="steps">行走步数</string>
-    <string name="kilometers">千米</string>
-    <string name="miles">米</string>
-    <string name="steps_per_minute">步/分</string>
-    <string name="kilometers_per_hour">行走速度：千米/时</string>
-    <string name="miles_per_second">行走速度：米/秒</string>
-    <string name="realtime">实时计算结果</string>
-    <string name="offline">离线计算结果</string>
-    
-    <string name="hour">时</string>
-    <string name="minute">分</string>
-    <string name="second">秒</string>
-    <string name="bigstep">大步</string>
-    <string name="smallstep">小步</string>
-    <string name="startcounting">开始计数</string>
-    <string name="counting">正在计数</string>
-    <string name="stopcounting">停止计数</string>
-    <string name="continuecounting">继续计数</string>
-    <string name="offlinecalculating">离线计算中</string>
-    <string name="suretoquit">确定要退出程序?</string>
-    <string name="sure">确定</string>
-    <string name="cancel">取消</string>
-    <string name="openMap">打开地图</string>
-    
-    <string name="startpoint">起始点</string>
 </resources>

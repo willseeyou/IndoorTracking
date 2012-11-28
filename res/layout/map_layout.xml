@@ -7,6 +7,6 @@
 	<com.google.android.maps.MapView 
 	android:id="@+id/MapView01" 
 	android:layout_width="fill_parent" 
-	android:layout_height="fill_parent" 
+	android:layout_height="fill_parent"
 	android:apiKey="08vR-4BiUtb6lTNp7hbG3Kak0aE0taT1k5v8Q5g"/> 
 </LinearLayout>

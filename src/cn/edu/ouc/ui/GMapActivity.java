@@ -3,8 +3,9 @@ package cn.edu.ouc.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
+import android.app.SearchManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -14,6 +15,9 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.SearchView;
 import cn.edu.ouc.R;
 import cn.edu.ouc.db.DatabaseHelper;
 
@@ -23,6 +27,7 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
+@SuppressLint("NewApi")
 public class GMapActivity extends MapActivity {
 
 	private MapView mMapView;  
@@ -30,6 +35,8 @@ public class GMapActivity extends MapActivity {
 	private GeoPoint centerPoint;
 	private List<GeoPoint> geoPointList;
 	MyLocationOverlay myLocationOverlay;
+	
+	private MenuItem searchMenuItem;
 	//MyTouchListener myTouchListener;
 	Path path;
 	Bitmap bitmap;
@@ -43,12 +50,12 @@ public class GMapActivity extends MapActivity {
 	protected void onCreate(Bundle icicle) {
 		// TODO Auto-generated method stub
 		super.onCreate(icicle);
-		setContentView(R.layout.googlemap);		
+		setContentView(R.layout.map_layout);		
 		mHelper = new DatabaseHelper(getApplicationContext());
 		db = mHelper.getReadableDatabase();
 		mMapView = (MapView) findViewById(R.id.MapView01);  
-		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
-		bitmapDes = BitmapFactory.decodeResource(getResources(), R.drawable.markera);
+		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.green_dot);
+		bitmapDes = BitmapFactory.decodeResource(getResources(), R.drawable.red_dot);
         mMapView.setSatellite(true);   
         //myTouchListener = new MyTouchListener();
         mMapController = mMapView.getController();   
@@ -70,14 +77,12 @@ public class GMapActivity extends MapActivity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		db.close();
 	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
@@ -91,7 +96,6 @@ public class GMapActivity extends MapActivity {
 	    
 		public MyLocationOverlay() {
 			super();
-			// TODO Auto-generated constructor stub
 			geoPointList = new ArrayList<GeoPoint>();
 		}
 
@@ -157,17 +161,21 @@ public class GMapActivity extends MapActivity {
 		
 	}*/
 	
-	/*@Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.mapmenu, menu);
-		return super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.gmap_activity_menu, menu);
+		
+		searchMenuItem = menu.findItem(R.id.home_activity_search);
+		SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+		SearchView searchView = (SearchView) searchMenuItem.getActionView();
+		searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
+		searchView.setQueryRefinementEnabled(true);
+		
+		return true;
 	}
 
-	@Override
+	/*@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 	    case R.id.startpoint:
 	    	mMapView.setOnTouchListener(myTouchListener);
