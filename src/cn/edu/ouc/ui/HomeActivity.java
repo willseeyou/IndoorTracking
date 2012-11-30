@@ -107,7 +107,6 @@ public class HomeActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		Log.i(TAG, "[HomeActivity] onDestroy");
-		reset();
 		super.onDestroy();
 	}
 

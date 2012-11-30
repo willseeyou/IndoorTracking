@@ -79,6 +79,14 @@
   	translation_description="In the 'Help' page, the answer on how to use Indoor Tracks.">
   	
   	</string>
+  	<string name="help_how_to_config_parameters_question"
+  	translation_description="In the 'Help' page, the question on how to config parameters.">
+  	How to config parameters in Indoor Tracks?
+  	</string>
+  	<string name="help_how_to_config_parameters_answer"
+  	translation_description="In the 'Help' page, the answer on how to config parameters.">
+  	
+  	</string>
   	<!-- Help page -->
   	<string name="help_about"
     translation_description="In the 'Help' page, the button on the bottom to open the 'About Indoor

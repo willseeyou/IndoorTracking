@@ -127,24 +127,24 @@ public final class R {
         /**  About 
  About 
          */
-        public static final int about_copyright_notice=0x7f080024;
-        public static final int about_version=0x7f080025;
+        public static final int about_copyright_notice=0x7f080026;
+        public static final int about_version=0x7f080027;
         public static final int app_name=0x7f080000;
         /**  Settings 
  Settings 
          */
-        public static final int basic_settings_title=0x7f080028;
-        public static final int body_weight_setting=0x7f080031;
-        public static final int body_weight_setting_details=0x7f080032;
-        public static final int body_weight_setting_title=0x7f08002f;
+        public static final int basic_settings_title=0x7f08002a;
+        public static final int body_weight_setting=0x7f080033;
+        public static final int body_weight_setting_details=0x7f080034;
+        public static final int body_weight_setting_title=0x7f080031;
         public static final int calorie_text=0x7f080013;
         public static final int calorie_unit=0x7f080014;
-        public static final int centimeters=0x7f080034;
+        public static final int centimeters=0x7f080036;
         public static final int distance_text=0x7f080011;
         public static final int distance_unit=0x7f080012;
         public static final int enter_map=0x7f080017;
-        public static final int fixed_step_length_setting=0x7f080035;
-        public static final int fixed_step_length_setting_details=0x7f080036;
+        public static final int fixed_step_length_setting=0x7f080037;
+        public static final int fixed_step_length_setting_details=0x7f080038;
         public static final int frequency_text=0x7f080015;
         public static final int frequency_unit=0x7f080016;
         public static final int generic_ok=0x7f08001e;
@@ -153,12 +153,14 @@ public final class R {
          */
         public static final int generic_paused=0x7f08001c;
         public static final int generic_recording=0x7f08001d;
-        public static final int gyroscope_algorithm=0x7f08002d;
-        public static final int hand_held=0x7f08003c;
-        public static final int hde_algorithm=0x7f08002e;
+        public static final int gyroscope_algorithm=0x7f08002f;
+        public static final int hand_held=0x7f08003e;
+        public static final int hde_algorithm=0x7f080030;
         /**  Help page 
          */
-        public static final int help_about=0x7f080023;
+        public static final int help_about=0x7f080025;
+        public static final int help_how_to_config_parameters_answer=0x7f080024;
+        public static final int help_how_to_config_parameters_question=0x7f080023;
         public static final int help_how_to_use_answer=0x7f080022;
         public static final int help_how_to_use_question=0x7f080021;
         public static final int help_indoor_tracks_answer=0x7f080020;
@@ -166,7 +168,7 @@ public final class R {
  Help page 
          */
         public static final int help_indoor_tracks_question=0x7f08001f;
-        public static final int high=0x7f080042;
+        public static final int high=0x7f080044;
         public static final int icon_pause_recording=0x7f08001b;
         /**  Icon 
  Icon 
@@ -174,11 +176,11 @@ public final class R {
         public static final int icon_record_track=0x7f080019;
         public static final int icon_stop_recording=0x7f08001a;
         public static final int indoor_tracking=0x7f080001;
-        public static final int kilograms=0x7f080030;
+        public static final int kilograms=0x7f080032;
         public static final int length_unit=0x7f08000d;
-        public static final int low=0x7f080044;
-        public static final int magnetic_algorithm=0x7f08002c;
-        public static final int medium=0x7f080043;
+        public static final int low=0x7f080046;
+        public static final int magnetic_algorithm=0x7f08002e;
+        public static final int medium=0x7f080045;
         public static final int menu_help=0x7f080006;
         public static final int menu_pause=0x7f080003;
         public static final int menu_quit=0x7f080008;
@@ -189,31 +191,31 @@ public final class R {
         public static final int menu_search=0x7f080002;
         public static final int menu_settings=0x7f080005;
         public static final int menu_start=0x7f080004;
-        public static final int ouc_icon=0x7f080027;
-        public static final int phone_position_setting=0x7f080039;
-        public static final int phone_position_setting_details=0x7f08003a;
-        public static final int phone_position_setting_title=0x7f08003b;
+        public static final int ouc_icon=0x7f080029;
+        public static final int phone_position_setting=0x7f08003b;
+        public static final int phone_position_setting_details=0x7f08003c;
+        public static final int phone_position_setting_title=0x7f08003d;
         public static final int reset_warning=0x7f080018;
-        public static final int sensitivity_setting=0x7f08003e;
-        public static final int sensitivity_setting_details=0x7f08003f;
-        public static final int sensitivity_setting_title=0x7f080040;
-        public static final int step_length_setting=0x7f080037;
-        public static final int step_length_setting_details=0x7f080038;
-        public static final int step_length_setting_title=0x7f080033;
+        public static final int sensitivity_setting=0x7f080040;
+        public static final int sensitivity_setting_details=0x7f080041;
+        public static final int sensitivity_setting_title=0x7f080042;
+        public static final int step_length_setting=0x7f080039;
+        public static final int step_length_setting_details=0x7f08003a;
+        public static final int step_length_setting_title=0x7f080035;
         /**  Main Layout 
  Main Layout 
          */
         public static final int step_unit=0x7f08000c;
-        public static final int track_algorithm_setting=0x7f080029;
-        public static final int track_algorithm_setting_details=0x7f08002a;
-        public static final int track_algorithm_setting_title=0x7f08002b;
-        public static final int trouser_pocket=0x7f08003d;
+        public static final int track_algorithm_setting=0x7f08002b;
+        public static final int track_algorithm_setting_details=0x7f08002c;
+        public static final int track_algorithm_setting_title=0x7f08002d;
+        public static final int trouser_pocket=0x7f08003f;
         public static final int velocity_icon_description=0x7f08000e;
         public static final int velocity_text=0x7f08000f;
         public static final int velocity_unit=0x7f080010;
-        public static final int version=0x7f080026;
-        public static final int very_high=0x7f080041;
-        public static final int very_low=0x7f080045;
+        public static final int version=0x7f080028;
+        public static final int very_high=0x7f080043;
+        public static final int very_low=0x7f080047;
         /**  Number 
  Number 
          */

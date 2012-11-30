@@ -80,8 +80,21 @@
   	translation_description="In the 'Help' page, the answer on how to use Indoor Tracks.">
   	在运行“室内行人追踪”之前，要求手机放在指定位置。\n
   	手机的放置位置目前有两种：\n
-  	&#160;&#160;&#160;&#160;1.手持（手机朝向与行走方向平行）。\n
-  	&#160;&#160;&#160;&#160;2.裤子口袋（手机竖直放在裤子口袋中）。
+  	1.手持（手机朝向与行走方向平行）。\n
+  	2.裤子口袋（手机竖直放在裤子口袋中）。
+  	</string>
+  	<string name="help_how_to_config_parameters_question"
+  	translation_description="In the 'Help' page, the question on how to config parameters.">
+  	如何配置“室内行人追踪”参数？
+  	</string>
+  	<string name="help_how_to_config_parameters_answer"
+  	translation_description="In the 'Help' page, the answer on how to config parameters.">
+  	“室内行人追踪”的基本配置参数有更新率、算法设定、步长设定、体重设定和手机位置设定。\n
+  	更新率：传感器数据处理时间间隔。更新率越高，传感器数据处理越快，UI更新越快，但数据准确率降低。更新率越低，传感器数据处理越慢，UI更新越慢，但数据准确率增高。\n
+  	算法设定：追踪算法选择。目前提供三种追踪算法，基于陀螺仪数据的算法，基于HDE的算法和基于磁力计的算法（暂未添加）。\n
+  	步长设定：固定步长或可变步长选择。固定步长可由用户手动设定，可变步长由程序自动计算。\n
+  	体重设定：设置体重，用于卡路里的计算。\n
+  	手机位置设定：选择手机放置位置，目前提供两种放置位置——手持和裤子口袋。手机在不同位置，用户前进方向的计算方式不同。
   	</string>
   	<string name="help_about"
     translation_description="In the 'Help' page, the button on the bottom to open the 'About Indoor
