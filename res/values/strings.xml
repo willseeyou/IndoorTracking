@@ -20,17 +20,18 @@
     
     <!-- Main Layout -->
     <string name="step_unit">Step</string>
-   	<string name="length_unit">Step Length</string>
+   	<string name="length_unit">Step Length(m)</string>
    	<string name="velocity_icon_description">Velocity Icon</string>
    	<string name="velocity_text">Velocity</string>
    	<string name="velocity_unit">Km/h</string>
    	<string name="distance_text">Distance</string>
-   	<string name="distance_unit">Km</string>
-   	<string name="calorie_text">Calorie</string>
+   	<string name="distance_unit">m</string>
+   	<string name="calorie_text">Heat</string>
    	<string name="calorie_unit">Calorie</string>
    	<string name="frequency_text">Frequency</string>
    	<string name="frequency_unit">Steps/m</string>
    	<string name="enter_map">Enter Map</string>
+   	<string name="reset_warning">Recording#8230;, cannot reset!</string>
 
     <!-- Icon -->
     <string name="icon_record_track"
@@ -70,11 +71,70 @@
     Indoor Tracks allows you to record indoor tracks and visualize your walking activity while watching live performance statistics. Indoor Tracks makes it easy to archive
     your training history with Google Maps and share your activities with friends and the world.
   	</string>
+  	<string name="help_how_to_use_question"
+  	translation_description="In the 'Help' page, the question on how to use Indoor Tracks.">
+  	How to use Indoor Tracks?
+  	</string>
+  	<string name="help_how_to_use_answer"
+  	translation_description="In the 'Help' page, the answer on how to use Indoor Tracks.">
+  	
+  	</string>
   	<!-- Help page -->
   	<string name="help_about"
     translation_description="In the 'Help' page, the button on the bottom to open the 'About Indoor
       Tracks' dialog.">
     About Indoor Tracks
   </string>
-	
+  
+  	<!-- About -->
+  	<string name="about_copyright_notice"
+    translation_description="In the 'About Indoor Tracks' page, the copyright notice.">
+  	    Copyright 2012 \nOcean University of China
+  	</string>
+  	<string name="about_version"
+  	translation_description="In the 'About Indoor Tracks' page, label for the version number. E.g.,
+  	'Version: 1.1.11'.">
+  	    Version:
+  	</string>
+  	<string name="version">
+  	    1.0
+  	</string>
+  	
+  	<string name="ouc_icon">
+  	    badge
+  	</string>
+  	
+  	<!-- Settings -->
+  	<string name="basic_settings_title">
+  	    Basic Settings
+  	</string>
+  	<string name="track_algorithm_setting">Algorithm Setting</string>
+  	<string name="track_algorithm_setting_details">Choose Track Algorithms</string>
+  	<string name="track_algorithm_setting_title">Choose Track Algorithms</string>
+  	<string name="magnetic_algorithm">Magnetic-based Alg.</string>
+  	<string name="gyroscope_algorithm">Gyroscope-based Alg.</string>
+  	<string name="hde_algorithm">HDE-based Alg.</string>
+  	<string name="body_weight_setting_title">Enter your body weight(kilograms):</string>
+    <string name="kilograms">kilograms</string>
+    <string name="body_weight_setting">Body Weight Setting</string>
+    <string name="body_weight_setting_details">For calorie calculation</string>
+    <string name="step_length_setting_title">Enter your step length(centimeters):</string>
+    <string name="centimeters">centimeters</string>
+    <string name="fixed_step_length_setting">Fixed Step Length</string>
+    <string name="fixed_step_length_setting_details">Enable/disable fixed step length</string>
+    <string name="step_length_setting">Step Length Setting</string>
+    <string name="step_length_setting_details">For distance, speed, &amp; calorie calculation</string>
+    <string name="phone_position_setting">Phone Position Setting</string>
+    <string name="phone_position_setting_details">Choose the position where your phone is</string>
+	<string name="phone_position_setting_title">Choose the position</string>
+	<string name="hand_held">Hand Held</string>
+	<string name="trouser_pocket">Trouser Pocket</string>
+	<string name="sensitivity_setting">Sensitivity</string>
+    <string name="sensitivity_setting_details">Calibrate the step detector</string>
+    <string name="sensitivity_setting_title">Select sensitivity level</string>
+    <string name="very_high">very high</string>
+    <string name="high">high</string>
+    <string name="medium">medium</string>
+    <string name="low">low</string>
+    <string name="very_low">very low</string>
 </resources>

@@ -54,8 +54,8 @@ public class GMapActivity extends MapActivity {
 		mHelper = new DatabaseHelper(getApplicationContext());
 		db = mHelper.getReadableDatabase();
 		mMapView = (MapView) findViewById(R.id.MapView01);  
-		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.green_dot);
-		bitmapDes = BitmapFactory.decodeResource(getResources(), R.drawable.red_dot);
+		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
+		bitmapDes = BitmapFactory.decodeResource(getResources(), R.drawable.markera);
         mMapView.setSatellite(true);   
         //myTouchListener = new MyTouchListener();
         mMapController = mMapView.getController();   
@@ -68,7 +68,7 @@ public class GMapActivity extends MapActivity {
         centerPoint=new GeoPoint((int)(36.16010 * 1E6),(int)(120.491951* 1E6));
         mMapController.animateTo(centerPoint);   
         c = query();
-        mMapController.setZoom(20);   
+        mMapController.setZoom(21);   
         myLocationOverlay = new MyLocationOverlay();  
          List<Overlay> list = mMapView.getOverlays();  
          list.clear();
@@ -164,12 +164,6 @@ public class GMapActivity extends MapActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.gmap_activity_menu, menu);
-		
-		searchMenuItem = menu.findItem(R.id.home_activity_search);
-		SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
-		SearchView searchView = (SearchView) searchMenuItem.getActionView();
-		searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
-		searchView.setQueryRefinementEnabled(true);
 		
 		return true;
 	}

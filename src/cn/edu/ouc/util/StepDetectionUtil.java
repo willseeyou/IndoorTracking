@@ -284,4 +284,39 @@ public class StepDetectionUtil {
 		return point2;
 	}
 	
+	/**
+	 * 计算每一步的平均方向
+	 * @param numOne
+	 * @param numZero
+	 * @param j
+	 * @param orientation
+	 * @return
+	 */
+	public static float getMeanOrientation(int numOne, int numZero, int j, float[] orientation) {
+		float meanOrientation = 0;
+		int len = numOne + numZero;
+		float x = 0, y = 0;
+		for(int i = j - len; i < j; i++) {
+			y = (float) (y + Math.sin(orientation[i]));
+			x = (float) (x + Math.cos(orientation[i]));
+		}
+		meanOrientation = (float) ((Math.atan2(y / len, x / len) * 180 / Math.PI)%360);
+		return meanOrientation;
+	}
+	
+	/**
+	 * 如果手机竖直放在裤子口袋中，则方向传感器采集的方向需要进行旋转
+	 * @param orientation
+	 * @return
+	 */
+	public static float getRotatedOrientation(float orientation) {
+		if(orientation > 0 && orientation < 270)
+			orientation = 270 - orientation;
+		if(orientation > 270 && orientation < 360)
+			orientation = 630 - orientation;
+		orientation = orientation + 40;
+		orientation = (orientation + 360)%360;
+		return orientation;
+	}
+	
 }

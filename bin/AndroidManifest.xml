@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".ui.GMapActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.HelpActivity" android:screenOrientation="portrait"/>
+        <activity android:name="cn.edu.ouc.preferences.Settings" android:screenOrientation="portrait"/>
         <service android:name=".services.StepDetectionService" />
     </application>
 

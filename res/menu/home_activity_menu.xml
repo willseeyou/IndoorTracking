@@ -1,28 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-  <item
-    android:actionViewClass="android.widget.SearchView"
-    android:icon="@android:drawable/ic_menu_search"
-    android:id="@+id/home_activity_search"
-    android:showAsAction="ifRoom|collapseActionView"
-    android:title="@string/menu_search"/>
-  <item
-    android:icon="@android:drawable/ic_media_play"
-    android:id="@+id/home_activity_start"
-    android:showAsAction="ifRoom"
-    android:title="@string/menu_start"/>
-  <item
-    android:icon="@android:drawable/ic_media_pause"
-    android:id="@+id/home_activity_pause"
-    android:showAsAction="ifRoom"
-    android:title="@string/menu_pause"/>
    <item
     android:icon="@android:drawable/ic_menu_close_clear_cancel"
     android:id="@+id/home_activity_reset"
+    android:showAsAction="ifRoom"
     android:title="@string/menu_reset"/>
   <item
     android:icon="@android:drawable/ic_menu_preferences"
     android:id="@+id/home_activity_settings"
+    android:showAsAction="ifRoom"
     android:title="@string/menu_settings"/>
   <item
     android:icon="@android:drawable/ic_menu_help"

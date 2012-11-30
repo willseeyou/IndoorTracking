@@ -20,17 +20,18 @@
     
     <!-- Main Layout -->
     <string name="step_unit">步</string>
-    <string name="length_unit">步长</string>
+    <string name="length_unit">步长(米)</string>
     <string name="velocity_icon_description">速度图标</string>
     <string name="velocity_text">速度</string>
     <string name="velocity_unit">公里/时</string>
     <string name="distance_text">距离</string>
-    <string name="distance_unit">公里</string>
-    <string name="calorie_text">卡路里</string>
+    <string name="distance_unit">米</string>
+    <string name="calorie_text">热量</string>
     <string name="calorie_unit">卡路里</string>
     <string name="frequency_text">步频</string>
     <string name="frequency_unit">步/分钟</string>
     <string name="enter_map">点击进入地图</string>
+    <string name="reset_warning">正在记录，无法重置！</string>
     
     <!-- Icon -->
     <string name="icon_record_track"
@@ -63,18 +64,80 @@
   	<!-- Help page -->
 	<string name="help_indoor_tracks_question"
 	translation_description="In the 'Help' page, the question on what is Indoor Tracks.">
-	什么是"室内行人追踪"?
+	什么是“室内行人追踪”?
 	</string>
 	<string name="help_indoor_tracks_answer"
     translation_description="In the 'Help' page, the answer on what is Indoor Tracks.">
-    Indoor Tracks allows you to record indoor tracks and visualize your walking activity while watching live performance statistics. Indoor Tracks makes it easy to archive
-    your training history with Google Maps and share your activities with friends and the world.
+    “室内追踪”可以帮助您记录室内行走路线，在您步行时直观显示相关情况，同时还能向您提供实时的效果统计信息。“室内行人追踪”可
+    让您轻松利用Google地图归档自己的行走记录，并与朋友分享您的活动。
   	</string>
-  	<!-- Help page -->
+  	
+	<string name="help_how_to_use_question"
+  	translation_description="In the 'Help' page, the question on how to use Indoor Tracks.">
+  	如何使用“室内行人追踪”?
+  	</string>
+  	<string name="help_how_to_use_answer"
+  	translation_description="In the 'Help' page, the answer on how to use Indoor Tracks.">
+  	在运行“室内行人追踪”之前，要求手机放在指定位置。\n
+  	手机的放置位置目前有两种：\n
+  	&#160;&#160;&#160;&#160;1.手持（手机朝向与行走方向平行）。\n
+  	&#160;&#160;&#160;&#160;2.裤子口袋（手机竖直放在裤子口袋中）。
+  	</string>
   	<string name="help_about"
     translation_description="In the 'Help' page, the button on the bottom to open the 'About Indoor
       Tracks' dialog.">
-    关于"室内行人追踪"
-  </string>
-    
+          关于“室内行人追踪”
+  	</string>
+  
+  	<!-- About -->
+  	<string name="about_copyright_notice"
+    translation_description="In the 'About Indoor Tracks' page, the copyright notice.">
+  	    版权所有 2012 \n中国海洋大学
+  	</string>
+  	<string name="about_version"
+  	translation_description="In the 'About Indoor Tracks' page, label for the version number. E.g.,
+  	'Version: 1.1.11'.">
+  	    版本:
+  	</string>
+  	<string name="version">
+  	    1.0
+  	</string>
+  	
+  	<string name="ouc_icon">
+  	    校徽
+  	</string>
+  	
+  	<!-- Settings -->
+  	<string name="basic_settings_title">
+  	    基本设置
+  	</string>
+  	<string name="track_algorithm_setting">算法设定</string>
+  	<string name="track_algorithm_setting_details">选择追踪算法</string>
+  	<string name="track_algorithm_setting_title">选择追踪算法</string>
+  	<string name="magnetic_algorithm">基于磁力计算法</string>
+  	<string name="gyroscope_algorithm">基于陀螺仪算法</string>
+  	<string name="hde_algorithm">基于HDE算法</string>
+  	<string name="body_weight_setting_title">请输入体重:</string>
+    <string name="kilograms">千克</string>
+    <string name="body_weight_setting">体重设定</string>
+    <string name="body_weight_setting_details">用来计算卡路里</string>
+    <string name="step_length_setting_title">请输入步长:</string>
+    <string name="centimeters">厘米</string>
+    <string name="fixed_step_length_setting">固定步长</string>
+    <string name="fixed_step_length_setting_details">打开/关闭固定步长</string>
+    <string name="step_length_setting">步长设定</string>
+    <string name="step_length_setting_details">用来计算速度，距离和卡路里</string>
+    <string name="phone_position_setting">手机位置设定</string>
+    <string name="phone_position_setting_details">选择手机放置位置</string>
+	<string name="phone_position_setting_title">选择手机放置位置</string>
+ 	<string name="hand_held">手持</string>
+	<string name="trouser_pocket">裤子口袋</string>
+	<string name="sensitivity_setting">更新率</string>
+    <string name="sensitivity_setting_details">校正脚步探测器更新率</string>
+    <string name="sensitivity_setting_title">选择更新率等级</string>
+    <string name="very_high">高</string>
+    <string name="high">中高</string>
+    <string name="medium">中</string>
+    <string name="low">低</string>
+    <string name="very_low">中低</string>
 </resources>
