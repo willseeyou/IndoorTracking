@@ -122,6 +122,7 @@
   	<string name="magnetic_algorithm">Magnetic-based Alg.</string>
   	<string name="gyroscope_algorithm">Gyroscope-based Alg.</string>
   	<string name="hde_algorithm">HDE-based Alg.</string>
+  	<string name="psp_algorithm">PSP-based Alg.</string>
   	<string name="body_weight_setting_title">Enter your body weight(kilograms):</string>
     <string name="kilograms">kilograms</string>
     <string name="body_weight_setting">Body Weight Setting</string>

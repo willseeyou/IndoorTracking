@@ -21,9 +21,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	// Columns
 	public static final String NUM = "num";
 	public static final String LENGTH = "length";
-	public static final String ROLL = "roll";
-	public static final String PITCH = "pitch";
-	public static final String AZIMUTH = "azimuth";
 	public static final String LAT = "lat";
 	public static final String LNG = "lng";
 	
@@ -31,9 +28,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String TBL_NAME = "track_tbl " +
 			"(" + NUM + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			LENGTH + " FLOAT, " +
-			AZIMUTH + " FLOAT, " +
-			PITCH + " FLOAT, " +
-			ROLL + " FLOAT, " +
 			LAT + " FLOAT, " +
 			LNG + " FLOAT)";
 	private static final String CREATE_TBL_SQL = "create table " + TBL_NAME;

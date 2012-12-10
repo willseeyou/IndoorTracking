@@ -127,9 +127,10 @@
   	<string name="track_algorithm_setting">算法设定</string>
   	<string name="track_algorithm_setting_details">选择追踪算法</string>
   	<string name="track_algorithm_setting_title">选择追踪算法</string>
-  	<string name="magnetic_algorithm">基于磁力计算法</string>
-  	<string name="gyroscope_algorithm">基于陀螺仪算法</string>
-  	<string name="hde_algorithm">基于HDE算法</string>
+  	<string name="magnetic_algorithm">磁力计算法</string>
+  	<string name="gyroscope_algorithm">陀螺仪算法</string>
+  	<string name="hde_algorithm">HDE算法</string>
+  	<string name="psp_algorithm">PSP算法</string>
   	<string name="body_weight_setting_title">请输入体重:</string>
     <string name="kilograms">千克</string>
     <string name="body_weight_setting">体重设定</string>

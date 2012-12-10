@@ -5,6 +5,9 @@
 
 package cn.edu.ouc.algorithm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -36,19 +39,15 @@ public class StepDetection {
 	
 	/* ----------------------------------------------*/
 	// 用于checkForStep方法的参数
-	private float[] accel = new float[3]; // 加速度矢量
-	private float[] localMeanAccel; // 局部平均加速度
-	//private float[] accelVariance; // 加速度方差
-	private int[] condition; // 判断条件，用于进行脚步探测
+	private float[] accel = new float[3]; // 瞬时加速度
+	private float[] orientation = new float[3]; // 瞬时磁力计方向
+	private List<float[]> accelList = new ArrayList<float[]>(); // 加速度列表
+	private List<float[]> orientationList = new ArrayList<float[]>(); // 磁力计方向列表
+	private List<float[]> gyroOrientationList = new ArrayList<float[]>(); // 陀螺仪方向列表
 	private static final int W = 15; // 局部窗口大小，用于计算局部平均加速度和方差
 	private int swSize; // 滑动窗口大小
-	private float[] slide_windows_acc; // 滑动窗口,用于存储合加速度
-	private final static int CACHE = 35; // 作为滑动窗口的缓冲使用
-	// 滑动窗口指针，指示存储位置。
-	// 指针从CACHE处开始，前CACHE个位置作为滑动窗口的缓冲使用
-	private int swPointer = CACHE;
+	
 	private static final int BLOCKSIZE = 8; // 连续1或连续0的阈值
-	private boolean firstStart = true; //判断程序是否首次运行，以便对滑动窗口的起始位置进行设定
 	private int stepCount; //探测脚步数
 	private double stepLength; //步长
 	
@@ -61,7 +60,6 @@ public class StepDetection {
     private static final float NS2S = 1.0f / 1000000000.0f; // 纳秒到秒的转换
     public float[] matrix = new float[9]; // 旋转矩阵
     private float[] gyroOrientation = new float[3]; // 陀螺仪采集的方向
-    private float[][] slide_windows_ori; // 滑动窗口，用于存储陀螺仪采集的方向
     
     /* ----------------------------------------------*/
 	// 数据库操作相关参数
@@ -78,11 +76,11 @@ public class StepDetection {
 	 * 如果E为负，控制器IController减少固定增量IC.
 	 */
 	private float E = 0.0f;
-	private float IC = -0.00009f; // 固定增量，表示控制器IController的补偿因子
+	private float IC = -0.0001f; // 固定增量，表示控制器IController的补偿因子
 	private static final float DELTA = 90f; // 主方向间隔角度：各主方向互相垂直
 	float IController = 0; // 控制器，用来消除偏移误差
 	private int SIGN = 0; // 判断行走方向偏离主方向的哪一侧，SIGN = 1偏向左侧，SIGN = 0偏向右侧
-	private float priOrientation = 0f; // 前一步的方向
+	private double priOrientation = 0f; // 前一步的方向
 	private boolean STEPDETECTED = false; // 脚步探测标志
 	 
 	// 参数设定
@@ -93,6 +91,7 @@ public class StepDetection {
 	private final static int MAGNETIC_BASED_ALGORITHM = 1;
 	private final static int GYROSCOPE_BASED_ALGORITHM = 2;
 	private final static int HDE_BASED_ALGORITHM = 3;
+	private final static int PSP_BASED_ALGORITHM = 4;
 	
 	// 手机放置位置设定
 	private final static int HAND_HELD = 1;
@@ -113,9 +112,6 @@ public class StepDetection {
 		mSettings = PreferenceManager.getDefaultSharedPreferences(context);
         mIndoorTrackSettings = new IndoorTrackSettings(mSettings);
         swSize = mIndoorTrackSettings.getSensitivity();
-		this.slide_windows_acc = new float[swSize];
-		this.localMeanAccel = new float[swSize];
-		this.slide_windows_ori = new float[swSize][3];
 		stepCount = 0;
 		mHelper = new DatabaseHelper(context);
 		db = mHelper.getWritableDatabase();
@@ -125,7 +121,6 @@ public class StepDetection {
 		matrix[6] = 0.0f; matrix[7] = 0.0f; matrix[8] = 1.0f;
 		
 		gyroOrientation[0] = 0.0f; gyroOrientation[1] = 0.0f; gyroOrientation[2] = 0.0f;
-		//this.accelVariance = new float[swSize];
 		mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 	}
 	
@@ -134,24 +129,20 @@ public class StepDetection {
 	 */
 	public SensorEventListener mSensorEventListener = new SensorEventListener() {
 		
+		@SuppressWarnings("deprecation")
 		@Override
 		public void onSensorChanged(SensorEvent event) {
 			switch(event.sensor.getType()) {
 		    case Sensor.TYPE_ACCELEROMETER:
-		    	
 		    	System.arraycopy(event.values, 0, accel, 0, 3);
-		    	slide_windows_acc[swPointer % (swSize - 1)] = StepDetectionUtil.getMagnitudeOfAccel(accel);
-		        if((swPointer == swSize - 1)) {
-		        	checkForStep(); // 开始脚步探测
-		        }
-		        swPointer++;
-		        if(swPointer > swSize - 1) { // 如果指针位置超过窗口大小，则将指针移到距离窗口起始位置CACHE处
-		        	swPointer = (swPointer % (swSize - 1)) + CACHE; // 窗口的前CACHE个位置作为缓冲使用
-		        }
-		        swPointer = swPointer % swSize;
 		        break;
+		        
 		    case Sensor.TYPE_GYROSCOPE:
 		    	gyroFunction(event); // 处理陀螺仪数据
+		    	break;
+		    	
+		    case Sensor.TYPE_ORIENTATION:
+		    	System.arraycopy(event.values, 0, orientation, 0, 3);
 		    	break;
 			}
 		}
@@ -175,6 +166,10 @@ public class StepDetection {
 		mSensorManager.registerListener(mSensorEventListener, 
 				mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),
 				SensorManager.SENSOR_DELAY_FASTEST);
+		
+		mSensorManager.registerListener(mSensorEventListener, 
+				mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+				SensorManager.SENSOR_DELAY_FASTEST);
 	}
 	
 	/**
@@ -183,17 +178,20 @@ public class StepDetection {
 	public void stopSensor() {
 		Log.i(TAG, "[StepDetection] stopSensor");
 		mSensorManager.unregisterListener(mSensorEventListener);
+		accelList.clear();
+		gyroOrientationList.clear();
 	}
 	
 	/**
 	 * 脚步探测算法，利用行走的加速度特征判断脚步
 	 */
-	private void checkForStep() {
+	private void checkForStep(List<float[]> orientationList) {
 		Log.i(TAG, "[StepDetection] checkForStep");
 		
-		localMeanAccel = StepDetectionUtil.getLocalMeanAccel(slide_windows_acc, W);
+		List<Float> magnitudeOfAccel = StepDetectionUtil.getMagnitudeOfAccel(accelList);
+		List<Float> localMeanAccel = StepDetectionUtil.getLocalMeanAccel(magnitudeOfAccel, W);
 		float threshold = StepDetectionUtil.getAverageLocalMeanAccel(localMeanAccel) + 0.5f;
-		condition = StepDetectionUtil.getCondition(localMeanAccel, threshold);
+		List<Integer> condition = StepDetectionUtil.getCondition(localMeanAccel, threshold);
 		
 		int numOne = 0; // 记录判断条件condition中，连续1的个数
 		int numZero = 0; // 记录判断条件condition中，连续0的个数
@@ -201,64 +199,64 @@ public class StepDetection {
 		
 		// 通过数连续1和连续0的个数判断脚步
 		for(int i = 0, j = 1; i < swSize - 1 && j < swSize - W; i++, j++) {
-			if(firstStart) { // 首次运行程序时，滑动窗口的初始位置设置为CACHE，
-				i = CACHE;   // 前CACHE 用作缓冲区
-				j = i + 1;
-			}
-			firstStart = false;
-			if(mIndoorTrackSettings.getAlgorithms() == HDE_BASED_ALGORITHM) {
-				HDEComp(); // HDE校正过程
-			}
-			flag = StepDetectionUtil.isOne(condition[i]); // 判断前一个采样点的判断条件i是否为1
+			flag = StepDetectionUtil.isOne(condition.get(i)); // 判断前一个采样点的判断条件i是否为1
 			/* 如果前一个采样点i的判断条件和当前采样点j的判断条件相同，
 			 * 并且都等于1，则numOne加1. */
-			if((condition[i] == condition[j]) && flag == true) 
+			if((condition.get(i) == condition.get(j)) && flag == true) 
 			{				
 				numOne++;
 			}
 			/* 如果前一个采样点i的判断条件和当前采样点j的判断条件相同，
 			 * 并且都等于0，则numZero加1. */
-			if((condition[i] == condition[j]) && flag == false) 
+			if((condition.get(i) == condition.get(j)) && flag == false) 
 			{
 				numZero++;	
 			}
 			/* 如果前一个采样点i不等于当前采样点j的值，
 			 * 并且连续1和连续0的个数均大于BLOCKSIZE，则探测到脚步，
 			 * 将numOne和numZero置0，计算探测脚步的步长和方向。 */
-			if((condition[i] != condition[j]) && j > W && j < swSize - W) {
+			if((condition.get(i) != condition.get(j)) && j > W && j < swSize - W) {
 				if(numOne > BLOCKSIZE && numZero > BLOCKSIZE) {
-					numOne = 0;
-					numZero = 0;
+					
 					STEPDETECTED = true;
 					stepCount++;
 					float meanA = StepDetectionUtil.getMean(localMeanAccel, j, W);
+					
 					if(!mIndoorTrackSettings.getStepLengthMode() == FIXED_STEP_LENGTH)
 						{
 						stepLength = StepDetectionUtil.getSL(0.33f, meanA);
 						}
 					else stepLength = mIndoorTrackSettings.getStepLength() / 100f;
+					
+					double meanOrientation = 0;
+					meanOrientation = StepDetectionUtil.getMeanOrientation(numOne, numZero, j, 
+							orientationList, mIndoorTrackSettings.getPhonePosition(), mIndoorTrackSettings.getAlgorithms());
 					st.trigger(stepCount, (float) stepLength, gyroOrientation);
-					if(mIndoorTrackSettings.getPhonePosition() == HAND_HELD) {
-					priOrientation = (float) ((gyroOrientation[0] * 180 / Math.PI + 360) % 360);
-					}
-					else priOrientation = (float) ((gyroOrientation[2] * 180 / Math.PI + 360) % 360);
-					saveToDb();
+					
+					priOrientation = meanOrientation;
+					System.out.println(priOrientation);
+					
+					saveToDb(meanOrientation);
+					numOne = 0;
+					numZero = 0;
 				}
 			}
 		}
 		
-		/* 将数组中的最后CACHE个采样点放置到数组的前CACHE位置中，
-		 * 模拟循环队列。
-		*/
-		for(int k = 0; k < CACHE; k++) {
-			slide_windows_acc[k] = slide_windows_acc[k + swSize - CACHE];
-		}
 	}
 	
 	/**
 	 * HDE校正过程
 	 */
 	public void HDEComp() {
+		if(stepCount < 2) {
+			matrix[0] = 1.0f; matrix[1] = 0.0f; matrix[2] = 0.0f;
+			matrix[3] = 0.0f; matrix[4] = 1.0f; matrix[5] = 0.0f;
+			matrix[6] = 0.0f; matrix[7] = 0.0f; matrix[8] = 1.0f;
+			IC = -0.0006f;
+		}
+		else IC = -0.0001f;
+		
 		E = (float) (DELTA / 2 - priOrientation % DELTA);
 		IController += StepDetectionUtil.getSign(E) * IC;
 		if(STEPDETECTED) {
@@ -293,7 +291,37 @@ public class StepDetection {
         
 		matrix = StepDetectionUtil.matrixMultiplication(matrix, deltaMatrix);
 		SensorManager.getOrientation(matrix, gyroOrientation);
-		slide_windows_ori[swPointer] = gyroOrientation;
+		
+		if(mIndoorTrackSettings.getAlgorithms() == HDE_BASED_ALGORITHM || mIndoorTrackSettings.getAlgorithms() == PSP_BASED_ALGORITHM) {
+			HDEComp(); // HDE校正过程
+		}
+		
+		float[] tempAccel = new float[3];
+		System.arraycopy(accel, 0, tempAccel, 0, 3);
+		accelList.add(tempAccel);
+		
+		float[] tempOrientation = new float[3];
+		System.arraycopy(orientation, 0, tempOrientation, 0, 3);
+		orientationList.add(tempOrientation);
+		
+		float[] tempGyroOrientation = new float[3];
+		System.arraycopy(gyroOrientation, 0, tempGyroOrientation, 0, 3);
+		gyroOrientationList.add(tempGyroOrientation);
+		
+		if(gyroOrientationList.size() > swSize) {
+			if (mIndoorTrackSettings.getAlgorithms() != MAGNETIC_BASED_ALGORITHM) {
+				checkForStep(gyroOrientationList);
+			}
+			else {
+				checkForStep(orientationList);
+			}
+			for(int i = 0; i < swSize - 35; i++) {
+				accelList.remove(0);
+				orientationList.remove(0);
+				gyroOrientationList.remove(0);
+			}
+		}
+		
     }
     
     private void getRotationVectorFromGyro(float[] gyroValues,
@@ -327,43 +355,28 @@ public class StepDetection {
     /**
      * 将脚步数据保存到数据库中
      */
-    private void saveToDb() {
+    private void saveToDb(double bearing) {
     	Cursor c = db.query(TBL_NAME, null, null, null, null, null, null);
 		
 		double newlat = 0;
 		double newlng = 0;
 		if(c != null) {
 			if(c.getCount() == 0) {
-				if(mIndoorTrackSettings.getPhonePosition() == HAND_HELD) {
-				newlat = StepDetectionUtil.getPoint(lat, lng, (double) (slide_windows_ori[swPointer][0] * 180/Math.PI+ 360) % 360, (double) stepLength)[0];
-				newlng = StepDetectionUtil.getPoint(lat, lng, (double) (slide_windows_ori[swPointer][0] * 180/Math.PI+ 360) % 360, (double) stepLength)[1];
-				}
-				else {
-					newlat = StepDetectionUtil.getPoint(lat, lng, (double) (slide_windows_ori[swPointer][2] * 180/Math.PI+ 360) % 360, (double) stepLength)[0];
-					newlng = StepDetectionUtil.getPoint(lat, lng, (double) (slide_windows_ori[swPointer][2] * 180/Math.PI+ 360) % 360, (double) stepLength)[1];
-				}
+				newlat = StepDetectionUtil.getPoint(lat, lng, bearing, (double) stepLength)[0];
+				newlng = StepDetectionUtil.getPoint(lat, lng, bearing, (double) stepLength)[1];
 			}
 			if(c.getCount() >=1) {
 				c.moveToLast();
-				if(mIndoorTrackSettings.getPhonePosition() == HAND_HELD) {
-				newlat = StepDetectionUtil.getPoint(c.getDouble(5), c.getDouble(6), (double) (slide_windows_ori[swPointer][0] * 180/Math.PI+ 360) % 360, (double) stepLength)[0];
-				newlng = StepDetectionUtil.getPoint(c.getDouble(5), c.getDouble(6), (double) (slide_windows_ori[swPointer][0] * 180/Math.PI+ 360) % 360, (double) stepLength)[1];
-				}
-				else {
-					newlat = StepDetectionUtil.getPoint(c.getDouble(5), c.getDouble(6), (double) (slide_windows_ori[swPointer][2] * 180/Math.PI+ 360) % 360, (double) stepLength)[0];
-					newlng = StepDetectionUtil.getPoint(c.getDouble(5), c.getDouble(6), (double) (slide_windows_ori[swPointer][2] * 180/Math.PI+ 360) % 360, (double) stepLength)[1];
-				}
+				newlat = StepDetectionUtil.getPoint(c.getDouble(2), c.getDouble(3), bearing, (double) stepLength)[0];
+				newlng = StepDetectionUtil.getPoint(c.getDouble(2), c.getDouble(3), bearing, (double) stepLength)[1];
 			}
 		}
 		
 		ContentValues values = new ContentValues();
 		values.put("length", stepLength);
-		values.put("azimuth", (double) (slide_windows_ori[swPointer][0] * 180/Math.PI+ 360) % 360);
-		values.put("pitch", (double) (slide_windows_ori[swPointer][1] * 180/Math.PI+ 360) % 360);
-		values.put("roll", (double) (slide_windows_ori[swPointer][2] * 180/Math.PI+ 360) % 360);
 		values.put("lat", newlat);
 		values.put("lng", newlng);
 		db.insert(TBL_NAME, null, values);
     }
-	
+    
 }

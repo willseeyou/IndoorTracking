@@ -118,8 +118,8 @@ public class GMapActivity extends MapActivity {
 	        c = query();
 	        if(c != null){
 			while(c.moveToNext()) {
-				GeoPoint temPoint = new GeoPoint((int)(c.getFloat(5) * 1E6),
-						(int)(c.getFloat(6) * 1E6));
+				GeoPoint temPoint = new GeoPoint((int)(c.getFloat(2) * 1E6),
+						(int)(c.getFloat(3) * 1E6));
 				geoPointList.add(temPoint);
 			}
 			c.close();

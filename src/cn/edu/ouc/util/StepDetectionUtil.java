@@ -1,5 +1,9 @@
 package cn.edu.ouc.util;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 
 
 public class StepDetectionUtil {
@@ -11,38 +15,42 @@ public class StepDetectionUtil {
 	 * @param accel 三轴加速度
 	 * @return
 	 */
-	public static float getMagnitudeOfAccel(float[] accel) {
-		return (float) Math.sqrt(accel[0] * accel[0] + 
-				accel[1] * accel[1] + 
-				accel[2] * accel[2]);
+	public static List<Float> getMagnitudeOfAccel(List<float[]> accelList) {
+		float[] accel = new float[3]; // acc: acceleration of x, y, z
+		float macc = 0; // macc: magnitude of the acceleration
+		List<Float> magnitudeAccel = new ArrayList<Float>();
+		Iterator<float[]> it = accelList.iterator();
+		while(it.hasNext()) {
+			accel = it.next();
+			macc = (float) Math.sqrt(accel[0] * accel[0] + accel[1] * accel[1] + accel[2] * accel[2]);
+			magnitudeAccel.add(macc);
+		}
+		return magnitudeAccel;
 	}
 	
 	/**
 	 * 计算局部平均加速度
 	 * @param magAccel 合加速度
-	 * @param w 局部窗口大小
+	 * @param w 局部窗口大小，用于计算局部平均加速度和方差
 	 * @return
 	 */
-	public static float[] getLocalMeanAccel(float[] magAccel, int w) {
-		int size = magAccel.length;
-		float[] localMeanAccel = new float[size];
-		float sum = 0;
-		for(int i = 0; i < size; i++) {
-			sum = magAccel[i];
-			for(int j = 1; j <= w; j++) {
-				int right = i + j; // 当前位置i右侧的下标
-				int left = i - j; // 当前位置i左侧的下标
-				if(right >= size) { // 如果右侧的下标超过窗口大小，则减掉窗口大小，回到窗口起始位置
-					right = right - size;
+	public static List<Float> getLocalMeanAccel(List<Float> magnitudeAccel, int w) {
+		List<Float> macc = new ArrayList<Float>(); // macc: magnitude of acceleration
+		macc = magnitudeAccel;
+		List<Float> lmacc = new ArrayList<Float>(); // lmacc: local mean acceleration value
+		float sum = 0f;
+		for (int i = 0, size = macc.size(); i < size; i++) {
+			if (i < w || size - i <= w) 
+				lmacc.add(macc.get(i));
+			else if (i >= w && size - i > w) {
+				sum = macc.get(i);
+				for (int j = 1; j <= w; j++) {
+					sum += macc.get(i+j) + macc.get(i - j);
 				}
-				if(left < 0) { // 如果左侧的下标小于窗口最小下标零，则加上窗口大小，回到窗口末尾位置
-					left = size + left;
-				}
-				sum += magAccel[left] + magAccel[right];
+				lmacc.add(sum / (2 * w + 1));
 			}
-			localMeanAccel[i] = sum / ( 2 * w + 1);
 		}
-		return localMeanAccel;
+		return lmacc;
 	}
 	
 	/**
@@ -50,11 +58,12 @@ public class StepDetectionUtil {
 	 * @param localMeanAccel 局部平均加速度
 	 * @return
 	 */
-	public static float getAverageLocalMeanAccel(float[] localMeanAccel) {
-		float sum = 0;
-		int size = localMeanAccel.length;
-		for(int i = 0; i < size; i++) {
-			sum += localMeanAccel[i];
+	public static float getAverageLocalMeanAccel(List<Float> localMeanAccel) {
+		float sum = 0f;
+		Iterator<Float> it = localMeanAccel.iterator();
+		int size = localMeanAccel.size();
+		while (it.hasNext()) {
+			sum += it.next();
 		}
 		return sum / size;
 	}
@@ -63,7 +72,7 @@ public class StepDetectionUtil {
 	 * 计算局部加速度方差
 	 * @param magAccel 合加速度
 	 * @param localMeanAccel 局部平均加速度
-	 * @param w 局部窗口大小
+	 * @param w 局部窗口大小，用于计算局部平均加速度和方差
 	 * @return
 	 */
 	public static float[] getAccelVariance(float[] magAccel, float[] localMeanAccel, int w) {
@@ -93,16 +102,21 @@ public class StepDetectionUtil {
 	 * 计算脚步判断条件
 	 * 如果方差大于指定阈值，判断条件置1，否则置0
 	 * @param localMeanAccel 局部平均加速度
-	 * @param w 局部窗口大小
+	 * @param threshold 指定阈值
 	 * @return
 	 */
-	public static int[] getCondition(float[] localMeanAccel, float threshold) {
-		int size = localMeanAccel.length;
-		int[] condition = new int[size];
-		for(int i = 0; i < size; i++) {
-			if(localMeanAccel[i] > threshold)
-				condition[i] = 1;
-			else condition[i] = 0;
+	public static List<Integer> getCondition(List<Float> localMeanAccel, float threshold) {
+		List<Integer> condition = new ArrayList<Integer>();
+		Iterator<Float> it = localMeanAccel.iterator();
+		float flag;
+		while (it.hasNext()) {
+			flag = it.next();
+			if (flag > threshold) {
+				condition.add(1);
+			}
+			else {
+				condition.add(0);
+			}
 		}
 		return condition;
 	}
@@ -166,7 +180,7 @@ public class StepDetectionUtil {
 	 * 获取当前采样点j与周围-w ~ +w 个采样点中最大的加速度
 	 * @param magAccel 合加速度
 	 * @param j 当前采样点指针
-	 * @param w 
+	 * @param w 局部窗口大小，用于计算局部平均加速度和方差
 	 * @return
 	 */
 	public static float getMax(float[] magAccel, int j, int w)
@@ -185,7 +199,7 @@ public class StepDetectionUtil {
 	 * 获取当前采样点j与周围-w ~ +w 个采样点中最小的加速度
 	 * @param magAccel 合加速度
 	 * @param j 当前采样点指针
-	 * @param w
+	 * @param w 局部窗口大小，用于计算局部平均加速度和方差
 	 * @return
 	 */
 	public static float getMin(float [] magAccel, int j, int w)
@@ -202,16 +216,16 @@ public class StepDetectionUtil {
 	
 	/**
 	 * 获取当前采样点j与周围-w ~ +w 个采样点的平均加速度
-	 * @param magAccel 合加速度
+	 * @param magnitudeAccel 合加速度
 	 * @param j 当前采样点指针
-	 * @param w
+	 * @param w 局部窗口大小，用于计算局部平均加速度和方差
 	 * @return
 	 */
-	public static float getMean(float[] magAccel, int j, int w)
+	public static float getMean(List<Float> magnitudeAccel, int j, int w)
 	{
 		float sum = 0;
 		for(int i = -w; i < w; i++) {
-			sum += magAccel[j + i];
+			sum += magnitudeAccel.get(j + i);
 		}
 		return sum / (2 * w);
 	}
@@ -292,15 +306,34 @@ public class StepDetectionUtil {
 	 * @param orientation
 	 * @return
 	 */
-	public static float getMeanOrientation(int numOne, int numZero, int j, float[] orientation) {
+	public static double getMeanOrientation(int numOne, int numZero, int j, List<float[]> orientation, int position, int algorithm) {
 		float meanOrientation = 0;
 		int len = numOne + numZero;
 		float x = 0, y = 0;
 		for(int i = j - len; i < j; i++) {
-			y = (float) (y + Math.sin(orientation[i]));
-			x = (float) (x + Math.cos(orientation[i]));
+			if (position == 1) {
+				if(algorithm != 1) {
+					y = (float) (y + Math.sin(orientation.get(i)[0]));
+					x = (float) (x + Math.cos(orientation.get(i)[0]));
+				}
+				else {
+					y = (float) (y + Math.sin(orientation.get(i)[0] / 180 * Math.PI));
+					x = (float) (x + Math.cos(orientation.get(i)[0] / 180 * Math.PI));
+				}
+				
+			}
+			else {
+				if(algorithm != 1) {
+					y = (float) (y + Math.sin(orientation.get(i)[2]));
+					x = (float) (x + Math.cos(orientation.get(i)[2]));
+				}
+				else {
+					y = (float) (y + Math.sin(orientation.get(i)[2] / 180 * Math.PI));
+					x = (float) (x + Math.cos(orientation.get(i)[2] / 180 * Math.PI));
+				}
+			}
 		}
-		meanOrientation = (float) ((Math.atan2(y / len, x / len) * 180 / Math.PI)%360);
+		meanOrientation = (float) (((Math.atan2(y / len, x / len) * 180 / Math.PI)+360)%360);
 		return meanOrientation;
 	}
 	
