@@ -1,11 +1,13 @@
+/*
+ * Copyright 2012 Ocean University of China.
+ *
+ */
+
 package cn.edu.ouc.ui;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.annotation.SuppressLint;
-import android.app.SearchManager;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -15,9 +17,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.SearchView;
 import cn.edu.ouc.R;
 import cn.edu.ouc.db.DatabaseHelper;
 
@@ -27,7 +26,11 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
-@SuppressLint("NewApi")
+/**
+ * 地图显示类，显示用户行走路线
+ * 
+ * @author Chu Hongwei, Hong Feng
+ */
 public class GMapActivity extends MapActivity {
 
 	private MapView mMapView;  
@@ -36,7 +39,6 @@ public class GMapActivity extends MapActivity {
 	private List<GeoPoint> geoPointList;
 	MyLocationOverlay myLocationOverlay;
 	
-	private MenuItem searchMenuItem;
 	//MyTouchListener myTouchListener;
 	Path path;
 	Bitmap bitmap;
@@ -161,13 +163,6 @@ public class GMapActivity extends MapActivity {
 		
 	}*/
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.gmap_activity_menu, menu);
-		
-		return true;
-	}
-
 	/*@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {

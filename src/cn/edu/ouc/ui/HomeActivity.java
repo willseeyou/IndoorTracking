@@ -1,3 +1,8 @@
+/*
+ * Copyright 2012 Ocean University of China.
+ *
+ */
+
 package cn.edu.ouc.ui;
 
 import java.util.Timer;
@@ -21,6 +26,11 @@ import cn.edu.ouc.R;
 import cn.edu.ouc.preferences.Settings;
 import cn.edu.ouc.services.StepDetectionService;
 
+/**
+ * Home Activity,首次启动程序显示的界面
+ * 
+ * @author Chu Hongwei, Hong Feng
+ */
 public class HomeActivity extends Activity {
 
 	private static final String TAG = "HomeActivity";
@@ -57,13 +67,6 @@ public class HomeActivity extends Activity {
 	};
 
 	StepDetectionService stepDetectionService;
-	
-	// The following are set in onCreate
-	// Munu items
-	private MenuItem resetMenuItem;
-	private MenuItem settingsMenuItem;
-	private MenuItem helpMenuItem;
-	private MenuItem quitMenuItem;
 	
 	// TextView
 	private TextView stepValuesTextView;
@@ -114,10 +117,6 @@ public class HomeActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.home_activity_menu, menu);
 		
-		resetMenuItem = menu.findItem(R.id.home_activity_reset);
-		settingsMenuItem = menu.findItem(R.id.home_activity_settings);
-		helpMenuItem = menu.findItem(R.id.home_activity_help);
-		quitMenuItem = menu.findItem(R.id.home_activity_quit);
 		return true;
 	}
 
@@ -125,6 +124,10 @@ public class HomeActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.home_activity_settings:
+			Intent intent = new Intent(this, Settings.class);
+			startActivity(intent);
+			return true;
 		case R.id.home_activity_reset:
 			if(!trackController.isRecording()) {
 				reset();
@@ -132,10 +135,6 @@ public class HomeActivity extends Activity {
 			else {
 				Toast.makeText(this, R.string.reset_warning, Toast.LENGTH_SHORT).show();
 			}
-			return true;
-		case R.id.home_activity_settings:
-			Intent intent = new Intent(this, Settings.class);
-			startActivity(intent);
 			return true;
 		case R.id.home_activity_help:
 			intent = new Intent(this, HelpActivity.class);

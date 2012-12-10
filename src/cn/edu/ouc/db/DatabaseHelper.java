@@ -1,3 +1,8 @@
+/*
+ * Copyright 2012 Ocean University of China.
+ *
+ */
+
 package cn.edu.ouc.db;
 
 import android.content.Context;
@@ -6,6 +11,10 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+/**
+ * Êý¾Ý¿â¸¨ÖúÀà
+ * @author Chu Hongwei, Hong Feng
+ */
 public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	private static final int VERSION = 1;

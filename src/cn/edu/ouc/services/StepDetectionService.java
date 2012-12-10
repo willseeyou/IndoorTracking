@@ -1,3 +1,8 @@
+/*
+ * Copyright 2012 Ocean University of China.
+ *
+ */
+
 package cn.edu.ouc.services;
 
 import android.app.Service;
@@ -14,6 +19,11 @@ import cn.edu.ouc.algorithm.StepDetection;
 import cn.edu.ouc.algorithm.StepTrigger;
 import cn.edu.ouc.db.DatabaseHelper;
 
+/**
+ * 脚步探测服务类，提供脚步探测服务
+ * 
+ * @author Chu Hongwei, Hong Feng
+ */
 public class StepDetectionService extends Service implements StepTrigger {
 
 	private static final String TAG = "StepDetectionService";

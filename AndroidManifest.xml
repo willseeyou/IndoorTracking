@@ -8,9 +8,13 @@
         android:targetSdkVersion="17" />
 	<uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
+    <uses-feature android:name="android.hardware.sensor.accelerometer"
+        android:required="true"/>
+    
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/frame_logo_pdr"
         android:label="@string/app_name"
         android:theme="@style/ThemeSelector" >
         <uses-library android:name="com.google.android.maps" />

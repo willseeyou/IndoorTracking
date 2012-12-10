@@ -25,7 +25,6 @@ import cn.edu.ouc.util.StepDetectionUtil;
  * 当探测到脚步时，调用回调函数StepTrigger,并将步数、步长和方向当作参数传递.
  * 
  * @author Chu Hongwei, Hong Feng
- * @ University of China
  */
 public class StepDetection {
 

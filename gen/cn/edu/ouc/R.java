@@ -87,11 +87,10 @@ public final class R {
         public static final int frequency_values=0x7f0b0018;
         public static final int help_about=0x7f0b0002;
         public static final int help_ok=0x7f0b0001;
-        public static final int home_activity_help=0x7f0b0026;
-        public static final int home_activity_quit=0x7f0b0027;
+        public static final int home_activity_help=0x7f0b0025;
+        public static final int home_activity_quit=0x7f0b0026;
         public static final int home_activity_reset=0x7f0b0024;
-        public static final int home_activity_search=0x7f0b0023;
-        public static final int home_activity_settings=0x7f0b0025;
+        public static final int home_activity_settings=0x7f0b0023;
         public static final int length_units=0x7f0b0008;
         public static final int length_values=0x7f0b0006;
         public static final int open_map_btn=0x7f0b001c;
@@ -120,8 +119,7 @@ public final class R {
         public static final int track_controller=0x7f030005;
     }
     public static final class menu {
-        public static final int gmap_activity_menu=0x7f0a0000;
-        public static final int home_activity_menu=0x7f0a0001;
+        public static final int home_activity_menu=0x7f0a0000;
     }
     public static final class string {
         /**  About 
